@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Just One Question...</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            color: #333;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Hide main content initially */
+        #main-content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Language selection */
+        .language-selector {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 15;
+        }
+
+        .language-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #ff6b9d;
+            color: #ff6b9d;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .language-btn:hover {
+            background: #ff6b9d;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .language-btn.active {
+            background: #ff6b9d;
+            color: white;
+            box-shadow: 0 4px 12px rgba(255, 107, 157, 0.4);
+        }
+
+        /* Envelope intro container */
+        #envelope-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+        }
+
+        /* Instruction text */
+        .instruction {
+            font-size: 1.3rem;
+            color: #8b4c6b;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: gentlePulse 3s infinite;
+            text-shadow: 0 2px 4px rgba(139, 76, 107, 0.3);
+            font-weight: 500;
+        }
+
+        @keyframes gentlePulse {
+            0%, 100% { opacity: 0.9; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* Envelope container */
+        .envelope-wrapper {
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Envelope base body */
+        .envelope {
+            width: 300px;
+            height: 190px;
+            background: linear-gradient(135deg, #ff5582 0%, #ff5582 100%);
+            border: 3px solid #ff5582;
+            position: relative;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.2),
+                0 5px 15px rgba(255, 107, 157, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 4px;
+        }
+
+        .envelope:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.25),
+                0 8px 20px rgba(255, 107, 157, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        /* Envelope back triangular flaps */
+        .back-flap-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-top: 95px solid #ff5582;
+            border-right: 150px solid transparent;
+            z-index: 1;
+        }
+
+        .back-flap-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-top: 95px solid #ff5582;
+            border-left: 150px solid transparent;
+            z-index: 1;
+        }
+
+        /* Envelope front flap */
+        .front-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 115px solid #fd4274;
+            transform-origin: top center;
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 3;
+            box-shadow: 
+                0 -8px 16px rgba(255, 77, 125, 0.4),
+                inset 0 -2px 4px rgba(255, 255, 255, 0.2);
+        }
+
+        .front-flap.open {
+            transform: rotateX(180deg);
+            box-shadow: 
+                0 8px 16px rgba(255, 77, 125, 0.4),
+                inset 0 2px 4px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Letter inside */
+        .letter {
+            position: absolute;
+            top: 35px;
+            left: 20px;
+            width: 260px;
+            height: 130px;
+            background: linear-gradient(135deg, #fff 0%, #fef9f9 100%);
+            border: 2px solid #f0f0f0;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .letter.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Letter content preview */
+        .letter::before {
+            content: 'Hey Amélie 💫';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            font-size: 0.9rem;
+            color: #ff6b9d;
+            font-weight: 600;
+        }
+
+        .letter-lines {
+            position: absolute;
+            top: 40px;
+            left: 15px;
+            right: 15px;
+        }
+
+        .letter-line {
+            height: 2px;
+            background: linear-gradient(90deg, #ddd 0%, transparent 100%);
+            margin-bottom: 8px;
+            opacity: 0.7;
+        }
+
+        .letter-line:nth-child(1) { width: 80%; }
+        .letter-line:nth-child(2) { width: 90%; }
+        .letter-line:nth-child(3) { width: 75%; }
+        .letter-line:nth-child(4) { width: 85%; }
+
+        /* Heart seal */
+        .heart-seal {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.2rem;
+            color: #ff1744;
+            z-index: 4;
+            animation: sealPulse 2.5s infinite;
+            text-shadow: 0 3px 6px rgba(255, 23, 68, 0.4);
+            filter: drop-shadow(0 0 8px rgba(255, 23, 68, 0.3));
+        }
+
+        @keyframes sealPulse {
+            0%, 100% { transform: translateX(-50%) scale(1) rotate(0deg); }
+            50% { transform: translateX(-50%) scale(1.15) rotate(5deg); }
+        }
+
+        /* Sparkles around envelope */
+        .sparkle {
+            position: absolute;
+            color: #fff;
+            font-size: 1.5rem;
+            opacity: 0.8;
+            animation: sparkle 3s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.8; transform: scale(1) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+        }
+
+        .sparkle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .sparkle:nth-child(2) { top: 30%; right: 15%; animation-delay: 0.5s; }
+        .sparkle:nth-child(3) { bottom: 25%; left: 20%; animation-delay: 1s; }
+        .sparkle:nth-child(4) { bottom: 35%; right: 10%; animation-delay: 1.5s; }
+
+        /* Main content styles */
+        .heart {
+            font-size: 3.5rem;
+            animation: heartBeat 1.2s infinite;
+            z-index: 10;
+            filter: drop-shadow(0 4px 8px rgba(255, 105, 180, 0.4));
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        h1 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            margin-bottom: 0.5em;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fa3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(255, 105, 180, 0.3);
+        }
+
+        p {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            max-width: 600px;
+            color: #444;
+            line-height: 1.7;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .buttons {
+            margin-top: 2.5em;
+            z-index: 10;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fa3 100%);
+            border: none;
+            color: white;
+            padding: 18px 35px;
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 8px 25px rgba(255, 105, 180, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            min-width: 140px;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #ff8fa3 0%, #ffb3ba 100%);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 
+                0 12px 35px rgba(255, 105, 180, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        button:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        /* Floating hearts container */
+        .floating-hearts {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            pointer-events: none;
+            overflow: visible;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .floating-heart {
+            position: absolute;
+            bottom: 0;
+            font-size: 1.8rem;
+            color: #ff6b9d;
+            opacity: 0.9;
+            animation-name: floatUp;
+            animation-timing-function: ease-out;
+            animation-iteration-count: infinite;
+            filter: drop-shadow(0 2px 4px rgba(255, 107, 157, 0.3));
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1) rotate(0deg);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-120vh) scale(1.5) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Thank you screen */
+        .thank-you-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fa3 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            text-align: center;
+            padding: 20px;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+        }
+
+        .thank-you-screen.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .thank-you-screen h2 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-bottom: 0.5em;
+            animation: celebrate 1s infinite;
+        }
+
+        @keyframes celebrate {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        .thank-you-screen button {
+            margin-top: 40px;
+            background: white;
+            color: #ff6b9d;
+            padding: 15px 30px;
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .thank-you-screen button:hover {
+            background-color: #ffe6f0;
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        /* Custom heart cursor */
+        #heart-cursor {
+            position: fixed;
+            pointer-events: none;
+            font-size: 28px;
+            color: #ff6b9d;
+            user-select: none;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out;
+            z-index: 30;
+            filter: drop-shadow(0 0 4px #ff8fa3);
+            display: block;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .envelope {
+                width: 260px;
+                height: 165px;
+            }
+
+            .back-flap-left {
+                border-top-width: 82px;
+                border-right-width: 130px;
+            }
+
+            .back-flap-right {
+                border-top-width: 82px;
+                border-left-width: 130px;
+            }
+
+            .front-flap {
+                border-left-width: 130px;
+                border-right-width: 130px;
+                border-top-width: 82px;
+            }
+
+            .letter {
+                top: 30px;
+                left: 15px;
+                width: 230px;
+                height: 110px;
+            }
+
+            .instruction {
+                font-size: 1.1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .heart-seal {
+                font-size: 1.8rem;
+                bottom: 25px;
+            }
+
+            .language-selector {
+                top: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .envelope {
+                width: 220px;
+                height: 140px;
+            }
+
+            .back-flap-left {
+                border-top-width: 70px;
+                border-right-width: 110px;
+            }
+
+            .back-flap-right {
+                border-top-width: 70px;
+                border-left-width: 110px;
+            }
+
+            .front-flap {
+                border-left-width: 110px;
+                border-right-width: 110px;
+                border-top-width: 70px;
+            }
+
+            .letter {
+                top: 25px;
+                left: 12px;
+                width: 196px;
+                height: 90px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            button {
+                width: 100%;
+                max-width: 220px;
+            }
+
+            .language-selector {
+                top: 15px;
+                right: 15px;
+                gap: 8px;
+            }
+
+            .language-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Hover effects only on non-touch devices */
+        @media (hover: hover) {
+            .envelope:hover {
+                transform: translateY(-8px) scale(1.02);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="envelope-container" aria-label="Click to open the envelope">
+        <div class="instruction">Click to open ✨</div>
+        <div class="envelope-wrapper">
+            <div class="sparkle">✨</div>
+            <div class="sparkle">⭐</div>
+            <div class="sparkle">✨</div>
+            <div class="sparkle">⭐</div>
+            <div class="envelope" role="img" aria-hidden="true">
+                <div class="back-flap-left"></div>
+                <div class="back-flap-right"></div>
+                <div class="letter" id="letter">
+                    <div class="letter-lines">
+                        <div class="letter-line"></div>
+                        <div class="letter-line"></div>
+                        <div class="letter-line"></div>
+                        <div class="letter-line"></div>
+                    </div>
+                </div>
+                <div class="front-flap" id="frontFlap"></div>
+                <div class="heart-seal">💕</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <div class="language-selector">
+            <button class="language-btn active" data-lang="en">English</button>
+            <button class="language-btn" data-lang="nl">Nederlands</button>
+        </div>
+
+        <div class="heart">💖</div>
+        <h1 id="greeting">Hey Amélie 💫</h1>
+        <p id="main-text">
+            From the first time we talked to all the little moments in between,<br />
+            these last two months with you have been something special.<br /><br />
+            Every date, every laugh, every little look they've all made me feel lucky.<br /><br />
+            So I have just one question for you...
+        </p>
+        <h1 id="question">Will you be my girlfriend? ❤️</h1>
+        <div class="buttons">
+            <button id="yesBtn1">Yes 😊</button>
+            <button id="yesBtn2">Also yes 😄</button>
+        </div>
+
+        <div class="floating-hearts" aria-hidden="true"></div>
+
+        <div class="thank-you-screen" id="thankYouScreen" role="dialog" aria-modal="true" aria-labelledby="thankYouTitle">
+            <h2 id="thankYouTitle">YAY! 😍</h2>
+            <p id="thankYouText">Can't wait for what's next with you, Amélie.<br>Thank you for making me the happiest guy.</p>
+            <button id="closeThankYou">Close</button>
+        </div>
+
+        <div id="heart-cursor">💕</div>
+    </div>
+
+    <script>
+        // Language translations
+        const translations = {
+            en: {
+                greeting: "Hey Amélie 💫",
+                mainText: "From the first time we talked to all the little moments in between,<br />these last two months with you have been something special.<br /><br />Every date, every laugh, every little look they've all made me feel lucky.<br /><br />So I have just one question for you...",
+                question: "Will you be my girlfriend? ❤️",
+                yesBtn1: "Yes 😊",
+                yesBtn2: "Also yes 😄",
+                thankYouTitle: "YAY! 😍",
+                thankYouText: "Can't wait for what's next with you, Amélie.<br>Thank you for making me the happiest guy.",
+                closeThankYou: "Close"
+            },
+            nl: {
+                greeting: "Hey Amélie 💫",
+                mainText: "Vanaf het allereerste moment dat we begonnen te praten tot aan al die kleine momentjes tussendoor<br />de afgelopen twee maanden met jou zijn echt speciaal geweest.<br /><br />Elke date, elke lach, elke blik... stuk voor stuk hebben ze me gelukkig gemaakt.<br /><br />Dus ik heb eigenlijk maar één vraag voor je...",
+                question: "Wil je mijn vriendin worden? ❤️",
+                yesBtn1: "Ja 😊",
+                yesBtn2: "Ook ja 😄",
+                thankYouTitle: "JOEPIE! 😍",
+                thankYouText: "Kan niet wachten op wat er hierna komt met jou, Amélie.<br>Bedankt dat je me de gelukkigste man maakt.",
+                closeThankYou: "Sluiten"
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        // Update text content based on language
+        function updateLanguage(lang) {
+            currentLanguage = lang;
+            const t = translations[lang];
+            
+            document.getElementById('greeting').innerHTML = t.greeting;
+            document.getElementById('main-text').innerHTML = t.mainText;
+            document.getElementById('question').innerHTML = t.question;
+            document.getElementById('yesBtn1').textContent = t.yesBtn1;
+            document.getElementById('yesBtn2').textContent = t.yesBtn2;
+            document.getElementById('thankYouTitle').textContent = t.thankYouTitle;
+            document.getElementById('thankYouText').innerHTML = t.thankYouText;
+            document.getElementById('closeThankYou').textContent = t.closeThankYou;
+            
+            // Update language button states
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Language selection handlers
+        document.querySelectorAll('.language-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                updateLanguage(lang);
+            });
+        });
+
+        // Handle envelope click and animation
+        const envelopeContainer = document.getElementById('envelope-container');
+        const frontFlap = document.getElementById('frontFlap');
+        const letter = document.getElementById('letter');
+        const mainContent = document.getElementById('main-content');
+
+        envelopeContainer.addEventListener('click', () => {
+            // Add click effect
+            envelopeContainer.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                envelopeContainer.style.transform = 'scale(1)';
+            }, 100);
+
+            // Open the flap
+            frontFlap.classList.add('open');
+
+            // Show the letter inside
+            setTimeout(() => {
+                letter.classList.add('show');
+            }, 500);
+
+            // After animations complete, hide envelope and show main content
+            setTimeout(() => {
+                envelopeContainer.style.opacity = '0';
+                envelopeContainer.style.transition = 'opacity 0.6s ease';
+                setTimeout(() => {
+                    envelopeContainer.style.display = 'none';
+                    mainContent.style.display = 'flex';
+                    mainContent.style.opacity = '0';
+                    mainContent.style.transition = 'opacity 0.6s ease';
+                    setTimeout(() => {
+                        mainContent.style.opacity = '1';
+                    }, 50);
+                }, 600);
+            }, 1500);
+        });
+
+        // Floating hearts logic
+        const floatingHeartsContainer = document.querySelector('.floating-hearts');
+        const heartCursor = document.getElementById('heart-cursor');
+
+        function createHeart() {
+            const hearts = ['💖', '💕', '💗', '💓', '💝'];
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (16 + Math.random() * 12) + 'px';
+            heart.style.animationDuration = (5 + Math.random() * 3) + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            floatingHeartsContainer.appendChild(heart);
+
+            setTimeout(() => {
+                if (floatingHeartsContainer.contains(heart)) {
+                    floatingHeartsContainer.removeChild(heart);
+                }
+            }, (parseFloat(heart.style.animationDuration) * 1000) + 2000);
+        }
+
+        let heartsInterval;
+
+        function startHearts() {
+            heartsInterval = setInterval(createHeart, 400);
+        }
+
+        // Yes buttons and thank you screen
+        const thankYouScreen = document.getElementById('thankYouScreen');
+        const yesButtons = [document.getElementById('yesBtn1'), document.getElementById('yesBtn2')];
+        const closeThankYouBtn = document.getElementById('closeThankYou');
+
+        yesButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Create burst of hearts
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => createHeart(), i * 100);
+                }
+                thankYouScreen.classList.add('show');
+            });
+        });
+
+        closeThankYouBtn.addEventListener('click', () => {
+            thankYouScreen.classList.remove('show');
+        });
+
+        // Heart cursor movement (only on non-touch devices)
+        if (!('ontouchstart' in window)) {
+            window.addEventListener('mousemove', e => {
+                heartCursor.style.left = e.clientX + 'px';
+                heartCursor.style.top = e.clientY + 'px';
+            });
+
+            window.addEventListener('mousedown', () => {
+                heartCursor.style.transform = 'translate(-50%, -50%) scale(1.5) rotate(15deg)';
+            });
+
+            window.addEventListener('mouseup', () => {
+                heartCursor.style.transform = 'translate(-50%, -50%) scale(1) rotate(0deg)';
+            });
+
+            // Cursor pointer on buttons
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    heartCursor.style.display = 'none';
+                    button.style.cursor = 'pointer';
+                });
+                button.addEventListener('mouseleave', () => {
+                    heartCursor.style.display = 'block';
+                });
+            });
+        } else {
+            heartCursor.style.display = 'none';
+            document.body.style.cursor = 'default';
+        }
+
+        // Start floating hearts when main content appears
+        setTimeout(() => {
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                        if (mainContent.style.display === 'flex') {
+                            startHearts();
+                            observer.disconnect();
+                        }
+                    }
+                });
+            });
+            observer.observe(mainContent, { attributes: true });
+        }, 100);
+    </script>
+</body>
+</html>
