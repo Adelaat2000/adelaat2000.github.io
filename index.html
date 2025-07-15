@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
     <title>Just One Question...</title>
     <style>
         body {
@@ -12,8 +12,9 @@
             background-size: 400% 400%;
             animation: gradientShift 8s ease infinite;
             color: #333;
-            overflow: hidden;
+            overflow-x: hidden;
             cursor: none;
+            -webkit-text-size-adjust: 100%;
         }
 
         @keyframes gradientShift {
@@ -22,23 +23,22 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Hide main content initially */
         #main-content {
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+            min-height: -webkit-fill-available;
             text-align: center;
             padding: 20px;
             position: relative;
         }
 
-        /* Language selection */
         .language-selector {
             position: absolute;
-            top: 30px;
-            right: 30px;
+            top: 20px;
+            right: 20px;
             display: flex;
             gap: 10px;
             z-index: 15;
@@ -57,21 +57,15 @@
             backdrop-filter: blur(10px);
         }
 
-        .language-btn:hover {
-            background: #ff6b9d;
-            color: white;
-            transform: scale(1.05);
-        }
-
         .language-btn.active {
             background: #ff6b9d;
             color: white;
             box-shadow: 0 4px 12px rgba(255, 107, 157, 0.4);
         }
 
-        /* Envelope intro container */
         #envelope-container {
             height: 100vh;
+            height: -webkit-fill-available;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -82,11 +76,11 @@
             cursor: pointer;
             position: relative;
             user-select: none;
+            padding: 20px;
         }
 
-        /* Instruction text */
         .instruction {
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 5vw, 1.3rem);
             color: #8b4c6b;
             margin-bottom: 2rem;
             opacity: 0.9;
@@ -100,18 +94,18 @@
             50% { opacity: 1; transform: scale(1.05); }
         }
 
-        /* Envelope container */
         .envelope-wrapper {
             position: relative;
             transform-style: preserve-3d;
             perspective: 1000px;
             filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.2));
+            width: min(300px, 80vw);
+            height: min(190px, 50vw);
         }
 
-        /* Envelope base body */
         .envelope {
-            width: 300px;
-            height: 190px;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(135deg, #ff5582 0%, #ff5582 100%);
             border: 3px solid #ff5582;
             position: relative;
@@ -124,23 +118,14 @@
             border-radius: 4px;
         }
 
-        .envelope:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.25),
-                0 8px 20px rgba(255, 107, 157, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        }
-
-        /* Envelope back triangular flaps */
         .back-flap-left {
             position: absolute;
             top: 0;
             left: 0;
             width: 0;
             height: 0;
-            border-top: 95px solid #ff5582;
-            border-right: 150px solid transparent;
+            border-top: calc(min(190px, 50vw) / 2) solid #ff5582;
+            border-right: calc(min(300px, 80vw) / 2) solid transparent;
             z-index: 1;
         }
 
@@ -150,21 +135,20 @@
             right: 0;
             width: 0;
             height: 0;
-            border-top: 95px solid #ff5582;
-            border-left: 150px solid transparent;
+            border-top: calc(min(190px, 50vw) / 2) solid #ff5582;
+            border-left: calc(min(300px, 80vw) / 2) solid transparent;
             z-index: 1;
         }
 
-        /* Envelope front flap */
         .front-flap {
             position: absolute;
             top: 0;
             left: 0;
             width: 0;
             height: 0;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            border-top: 115px solid #fd4274;
+            border-left: calc(min(300px, 80vw) / 2) solid transparent;
+            border-right: calc(min(300px, 80vw) / 2) solid transparent;
+            border-top: calc(min(190px, 50vw) * 0.6) solid #fd4274;
             transform-origin: top center;
             transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 3;
@@ -180,13 +164,12 @@
                 inset 0 2px 4px rgba(255, 255, 255, 0.2);
         }
 
-        /* Letter inside */
         .letter {
             position: absolute;
-            top: 35px;
-            left: 20px;
-            width: 260px;
-            height: 130px;
+            top: 18%;
+            left: 7%;
+            width: 86%;
+            height: 68%;
             background: linear-gradient(135deg, #fff 0%, #fef9f9 100%);
             border: 2px solid #f0f0f0;
             box-shadow: 
@@ -205,23 +188,22 @@
             transform: translateY(0) scale(1);
         }
 
-        /* Letter content preview */
         .letter::before {
             content: 'Hey Amélie 💫';
             position: absolute;
-            top: 15px;
-            left: 15px;
-            right: 15px;
-            font-size: 0.9rem;
+            top: 10%;
+            left: 7%;
+            right: 7%;
+            font-size: clamp(0.8rem, 3vw, 0.9rem);
             color: #ff6b9d;
             font-weight: 600;
         }
 
         .letter-lines {
             position: absolute;
-            top: 40px;
-            left: 15px;
-            right: 15px;
+            top: 25%;
+            left: 7%;
+            right: 7%;
         }
 
         .letter-line {
@@ -236,13 +218,12 @@
         .letter-line:nth-child(3) { width: 75%; }
         .letter-line:nth-child(4) { width: 85%; }
 
-        /* Heart seal */
         .heart-seal {
             position: absolute;
-            bottom: 30px;
+            bottom: 16%;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 2.2rem;
+            font-size: clamp(1.8rem, 8vw, 2.2rem);
             color: #ff1744;
             z-index: 4;
             animation: sealPulse 2.5s infinite;
@@ -255,11 +236,10 @@
             50% { transform: translateX(-50%) scale(1.15) rotate(5deg); }
         }
 
-        /* Sparkles around envelope */
         .sparkle {
             position: absolute;
             color: #fff;
-            font-size: 1.5rem;
+            font-size: clamp(1rem, 5vw, 1.5rem);
             opacity: 0.8;
             animation: sparkle 3s infinite;
             pointer-events: none;
@@ -275,9 +255,8 @@
         .sparkle:nth-child(3) { bottom: 25%; left: 20%; animation-delay: 1s; }
         .sparkle:nth-child(4) { bottom: 35%; right: 10%; animation-delay: 1.5s; }
 
-        /* Main content styles */
         .heart {
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 10vw, 3.5rem);
             animation: heartBeat 1.2s infinite;
             z-index: 10;
             filter: drop-shadow(0 4px 8px rgba(255, 105, 180, 0.4));
@@ -289,7 +268,7 @@
         }
 
         h1 {
-            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-size: clamp(1.8rem, 6vw, 2.8rem);
             margin-bottom: 0.5em;
             line-height: 1.2;
             background: linear-gradient(135deg, #ff6b9d 0%, #ff8fa3 100%);
@@ -297,81 +276,80 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-shadow: 0 2px 4px rgba(255, 105, 180, 0.3);
+            padding: 0 10px;
         }
 
         p {
-            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-            max-width: 600px;
+            font-size: clamp(1rem, 3.5vw, 1.3rem);
+            max-width: min(600px, 90vw);
             color: #444;
-            line-height: 1.7;
+            line-height: 1.6;
             text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            padding: 0 10px;
         }
 
         .buttons {
-            margin-top: 2.5em;
+            margin-top: 1.5rem;
             z-index: 10;
             display: flex;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
             justify-content: center;
+            width: 100%;
+            max-width: min(600px, 90vw);
         }
 
         button {
             background: linear-gradient(135deg, #ff6b9d 0%, #ff8fa3 100%);
             border: none;
             color: white;
-            padding: 18px 35px;
-            font-size: clamp(1rem, 2vw, 1.1rem);
+            padding: clamp(12px, 3vw, 18px) clamp(20px, 4vw, 35px);
+            font-size: clamp(1rem, 3.5vw, 1.1rem);
             border-radius: 30px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 
                 0 8px 25px rgba(255, 105, 180, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            min-width: 140px;
+            min-width: min(140px, 40vw);
             font-weight: 600;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            flex: 1 1 auto;
         }
 
-        button:hover {
-            background: linear-gradient(135deg, #ff8fa3 0%, #ffb3ba 100%);
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 
-                0 12px 35px rgba(255, 105, 180, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        }
-
-        button:active {
-            transform: translateY(-2px) scale(1.02);
-        }
-
-        /* Floating hearts container */
+        /* FIXED FLOATING HEARTS */
         .floating-hearts {
-            position: absolute;
-            bottom: 0;
+            position: fixed;
+            top: 0;
             left: 0;
             right: 0;
+            bottom: 0;
             pointer-events: none;
-            overflow: visible;
-            height: 100%;
+            overflow: hidden;
             z-index: 1;
         }
 
         .floating-heart {
             position: absolute;
-            bottom: 0;
+            bottom: -50px;
             font-size: 1.8rem;
             color: #ff6b9d;
-            opacity: 0.9;
+            opacity: 0;
             animation-name: floatUp;
             animation-timing-function: ease-out;
-            animation-iteration-count: infinite;
+            animation-iteration-count: 1;
             filter: drop-shadow(0 2px 4px rgba(255, 107, 157, 0.3));
+            animation-fill-mode: forwards;
+            will-change: transform;
         }
 
         @keyframes floatUp {
             0% {
                 transform: translateY(0) scale(1) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
                 opacity: 0.9;
             }
             100% {
@@ -380,7 +358,6 @@
             }
         }
 
-        /* Thank you screen */
         .thank-you-screen {
             position: fixed;
             top: 0;
@@ -393,7 +370,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
             text-align: center;
             padding: 20px;
             z-index: 20;
@@ -408,9 +384,20 @@
         }
 
         .thank-you-screen h2 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-size: clamp(2rem, 8vw, 4rem);
             margin-bottom: 0.5em;
+            margin-top: 0;
             animation: celebrate 1s infinite;
+        }
+
+        .thank-you-screen p {
+            font-size: clamp(1rem, 3.5vw, 1.3rem);
+            max-width: min(600px, 90vw);
+            color: #444;
+            line-height: 1.6;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            padding: 0 10px;
         }
 
         @keyframes celebrate {
@@ -418,28 +405,27 @@
             50% { transform: scale(1.1) rotate(5deg); }
         }
 
-        .thank-you-screen button {
-            margin-top: 40px;
+        /* FIXED: Specific styling for the close button in thank you screen */
+        .thank-you-screen .close-btn {
             background: white;
             color: #ff6b9d;
-            padding: 15px 30px;
-            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            padding: clamp(12px, 3vw, 15px) clamp(20px, 4vw, 30px);
+            font-size: clamp(1rem, 3.5vw, 1.3rem);
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border: none;
+            font-weight: 600;
+            margin-top: 0;
+            min-width: auto;
+            flex: none;
         }
 
-        .thank-you-screen button:hover {
-            background-color: #ffe6f0;
-            transform: translateY(-3px) scale(1.05);
-        }
-
-        /* Custom heart cursor */
         #heart-cursor {
             position: fixed;
             pointer-events: none;
-            font-size: 28px;
+            font-size: clamp(20px, 4vw, 28px);
             color: #ff6b9d;
             user-select: none;
             transform: translate(-50%, -50%);
@@ -449,92 +435,7 @@
             display: block;
         }
 
-        /* Mobile optimizations */
-        @media (max-width: 768px) {
-            .envelope {
-                width: 260px;
-                height: 165px;
-            }
-
-            .back-flap-left {
-                border-top-width: 82px;
-                border-right-width: 130px;
-            }
-
-            .back-flap-right {
-                border-top-width: 82px;
-                border-left-width: 130px;
-            }
-
-            .front-flap {
-                border-left-width: 130px;
-                border-right-width: 130px;
-                border-top-width: 82px;
-            }
-
-            .letter {
-                top: 30px;
-                left: 15px;
-                width: 230px;
-                height: 110px;
-            }
-
-            .instruction {
-                font-size: 1.1rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .heart-seal {
-                font-size: 1.8rem;
-                bottom: 25px;
-            }
-
-            .language-selector {
-                top: 20px;
-                right: 20px;
-            }
-        }
-
         @media (max-width: 480px) {
-            .envelope {
-                width: 220px;
-                height: 140px;
-            }
-
-            .back-flap-left {
-                border-top-width: 70px;
-                border-right-width: 110px;
-            }
-
-            .back-flap-right {
-                border-top-width: 70px;
-                border-left-width: 110px;
-            }
-
-            .front-flap {
-                border-left-width: 110px;
-                border-right-width: 110px;
-                border-top-width: 70px;
-            }
-
-            .letter {
-                top: 25px;
-                left: 12px;
-                width: 196px;
-                height: 90px;
-            }
-
-            .buttons {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-            }
-
-            button {
-                width: 100%;
-                max-width: 220px;
-            }
-
             .language-selector {
                 top: 15px;
                 right: 15px;
@@ -545,12 +446,41 @@
                 padding: 6px 12px;
                 font-size: 0.8rem;
             }
+
+            .buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            button {
+                width: 100%;
+                max-width: 220px;
+            }
         }
 
-        /* Hover effects only on non-touch devices */
         @media (hover: hover) {
             .envelope:hover {
                 transform: translateY(-8px) scale(1.02);
+                box-shadow: 
+                    0 20px 40px rgba(0, 0, 0, 0.25),
+                    0 8px 20px rgba(255, 107, 157, 0.5),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            }
+            button:hover {
+                background: linear-gradient(135deg, #ff8fa3 0%, #ffb3ba 100%);
+                transform: translateY(-4px) scale(1.05);
+                box-shadow: 
+                    0 12px 35px rgba(255, 105, 180, 0.6),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            }
+            .thank-you-screen .close-btn:hover {
+                background-color: #ffe6f0;
+                transform: translateY(-3px) scale(1.05);
+            }
+            .language-btn:hover {
+                background: #ff6b9d;
+                color: white;
+                transform: scale(1.05);
             }
         }
     </style>
@@ -605,7 +535,7 @@
         <div class="thank-you-screen" id="thankYouScreen" role="dialog" aria-modal="true" aria-labelledby="thankYouTitle">
             <h2 id="thankYouTitle">YAY! 😍</h2>
             <p id="thankYouText">Can't wait for what's next with you, Amélie.<br>Thank you for making me the happiest guy.</p>
-            <button id="closeThankYou">Close</button>
+            <button id="closeThankYou" class="close-btn">Close</button>
         </div>
 
         <div id="heart-cursor">💕</div>
@@ -622,7 +552,8 @@
                 yesBtn2: "Also yes 😄",
                 thankYouTitle: "YAY! 😍",
                 thankYouText: "Can't wait for what's next with you, Amélie.<br>Thank you for making me the happiest guy.",
-                closeThankYou: "Close"
+                closeThankYou: "Close",
+                instruction: "Click to open ✨"
             },
             nl: {
                 greeting: "Hey Amélie 💫",
@@ -632,13 +563,13 @@
                 yesBtn2: "Ook ja 😄",
                 thankYouTitle: "JOEPIE! 😍",
                 thankYouText: "Kan niet wachten op wat er hierna komt met jou, Amélie.<br>Bedankt dat je me de gelukkigste man maakt.",
-                closeThankYou: "Sluiten"
+                closeThankYou: "Sluiten",
+                instruction: "Klik om te openen ✨"
             }
         };
 
         let currentLanguage = 'en';
 
-        // Update text content based on language
         function updateLanguage(lang) {
             currentLanguage = lang;
             const t = translations[lang];
@@ -651,17 +582,16 @@
             document.getElementById('thankYouTitle').textContent = t.thankYouTitle;
             document.getElementById('thankYouText').innerHTML = t.thankYouText;
             document.getElementById('closeThankYou').textContent = t.closeThankYou;
+            document.querySelector('.instruction').textContent = t.instruction;
             
-            // Update language button states
             document.querySelectorAll('.language-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.getAttribute('data-lang') === lang) {
                     btn.classList.add('active');
                 }
-            });
+            }); 
         }
 
-        // Language selection handlers
         document.querySelectorAll('.language-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const lang = btn.getAttribute('data-lang');
@@ -669,28 +599,23 @@
             });
         });
 
-        // Handle envelope click and animation
         const envelopeContainer = document.getElementById('envelope-container');
         const frontFlap = document.getElementById('frontFlap');
         const letter = document.getElementById('letter');
         const mainContent = document.getElementById('main-content');
 
         envelopeContainer.addEventListener('click', () => {
-            // Add click effect
             envelopeContainer.style.transform = 'scale(0.98)';
             setTimeout(() => {
                 envelopeContainer.style.transform = 'scale(1)';
             }, 100);
 
-            // Open the flap
             frontFlap.classList.add('open');
 
-            // Show the letter inside
             setTimeout(() => {
                 letter.classList.add('show');
             }, 500);
 
-            // After animations complete, hide envelope and show main content
             setTimeout(() => {
                 envelopeContainer.style.opacity = '0';
                 envelopeContainer.style.transition = 'opacity 0.6s ease';
@@ -706,9 +631,10 @@
             }, 1500);
         });
 
-        // Floating hearts logic
+        // FIXED FLOATING HEARTS IMPLEMENTATION
         const floatingHeartsContainer = document.querySelector('.floating-hearts');
         const heartCursor = document.getElementById('heart-cursor');
+        let heartsInterval;
 
         function createHeart() {
             const hearts = ['💖', '💕', '💗', '💓', '💝'];
@@ -718,32 +644,33 @@
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.fontSize = (16 + Math.random() * 12) + 'px';
             heart.style.animationDuration = (5 + Math.random() * 3) + 's';
-            heart.style.animationDelay = Math.random() * 2 + 's';
+            heart.style.animationDelay = Math.random() * 0.5 + 's';
+            
+            heart.addEventListener('animationend', function() {
+                heart.remove();
+            });
+            
             floatingHeartsContainer.appendChild(heart);
-
-            setTimeout(() => {
-                if (floatingHeartsContainer.contains(heart)) {
-                    floatingHeartsContainer.removeChild(heart);
-                }
-            }, (parseFloat(heart.style.animationDuration) * 1000) + 2000);
         }
-
-        let heartsInterval;
 
         function startHearts() {
+            if (heartsInterval) clearInterval(heartsInterval);
             heartsInterval = setInterval(createHeart, 400);
+            
+            // Initial burst
+            for (let i = 0; i < 10; i++) {
+                setTimeout(createHeart, i * 150);
+            }
         }
 
-        // Yes buttons and thank you screen
         const thankYouScreen = document.getElementById('thankYouScreen');
         const yesButtons = [document.getElementById('yesBtn1'), document.getElementById('yesBtn2')];
         const closeThankYouBtn = document.getElementById('closeThankYou');
 
         yesButtons.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Create burst of hearts
                 for (let i = 0; i < 20; i++) {
-                    setTimeout(() => createHeart(), i * 100);
+                    setTimeout(createHeart, i * 100);
                 }
                 thankYouScreen.classList.add('show');
             });
@@ -753,7 +680,6 @@
             thankYouScreen.classList.remove('show');
         });
 
-        // Heart cursor movement (only on non-touch devices)
         if (!('ontouchstart' in window)) {
             window.addEventListener('mousemove', e => {
                 heartCursor.style.left = e.clientX + 'px';
@@ -768,7 +694,6 @@
                 heartCursor.style.transform = 'translate(-50%, -50%) scale(1) rotate(0deg)';
             });
 
-            // Cursor pointer on buttons
             const buttons = document.querySelectorAll('button');
             buttons.forEach(button => {
                 button.addEventListener('mouseenter', () => {
