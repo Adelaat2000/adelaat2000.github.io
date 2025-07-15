@@ -5,16 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
     <title>Just One Question...</title>
     <style>
-        /* Force consistent emoji rendering across all devices */
-        .emoji {
-            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", "EmojiOne Color", "Android Emoji", "Twemoji Mozilla", sans-serif;
-            font-variant-emoji: emoji;
-            -webkit-font-feature-settings: "liga" off;
-            font-feature-settings: "liga" off;
-            text-rendering: auto;
-            -webkit-text-size-adjust: 100%;
-        }
-
         body {
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -210,21 +200,10 @@
         }
 
         .letter::before {
-            content: 'Hey Amélie ';
+            content: 'Hey Amélie 💫';
             position: absolute;
             top: 10%;
             left: 7%;
-            right: 7%;
-            font-size: clamp(0.8rem, 3vw, 0.9rem);
-            color: #ff6b9d;
-            font-weight: 600;
-        }
-
-        .letter::after {
-            content: '💫';
-            position: absolute;
-            top: 10%;
-            left: 60%;
             right: 7%;
             font-size: clamp(0.8rem, 3vw, 0.9rem);
             color: #ff6b9d;
@@ -263,10 +242,6 @@
             filter: drop-shadow(0 0 8px rgba(255, 23, 68, 0.3));
         }
 
-        .heart-seal::before {
-            content: '💕';
-        }
-
         @keyframes sealPulse {
             0%, 100% { transform: translateX(-50%) scale(1) rotate(0deg); }
             50% { transform: translateX(-50%) scale(1.15) rotate(5deg); }
@@ -279,15 +254,6 @@
             opacity: 0.8;
             animation: sparkle 3s infinite;
             pointer-events: none;
-        }
-
-        .sparkle::before {
-            content: '✨';
-        }
-
-        .sparkle:nth-child(2)::before,
-        .sparkle:nth-child(4)::before {
-            content: '⭐';
         }
 
         @keyframes sparkle {
@@ -305,10 +271,6 @@
             animation: heartBeat 1.2s infinite;
             z-index: 10;
             filter: drop-shadow(0 4px 8px rgba(255, 105, 180, 0.4));
-        }
-
-        .heart::before {
-            content: '💖';
         }
 
         @keyframes heartBeat {
@@ -522,10 +484,6 @@
             display: block;
         }
 
-        #heart-cursor::before {
-            content: '💕';
-        }
-
         @media (max-width: 768px) {
             .language-selector {
                 top: 15px;
@@ -617,12 +575,12 @@
 </head>
 <body>
     <div id="envelope-container" aria-label="Click to open the envelope">
-        <div class="instruction">Click to open <span class="emoji">✨</span></div>
+        <div class="instruction">Click to open ✨</div>
         <div class="envelope-wrapper">
-            <div class="sparkle"></div>
-            <div class="sparkle"></div>
-            <div class="sparkle"></div>
-            <div class="sparkle"></div>
+            <div class="sparkle">✨</div>
+            <div class="sparkle">⭐</div>
+            <div class="sparkle">✨</div>
+            <div class="sparkle">⭐</div>
             <div class="envelope" role="img" aria-hidden="true">
                 <div class="back-flap-left"></div>
                 <div class="back-flap-right"></div>
@@ -635,7 +593,7 @@
                     </div>
                 </div>
                 <div class="front-flap" id="frontFlap"></div>
-                <div class="heart-seal"></div>
+                <div class="heart-seal">💕</div>
             </div>
         </div>
     </div>
@@ -646,61 +604,55 @@
             <button class="language-btn" data-lang="nl">Nederlands</button>
         </div>
 
-        <div class="heart"></div>
-        <h1 id="greeting">Hey Amélie <span class="emoji">💫</span></h1>
+        <div class="heart">💖</div>
+        <h1 id="greeting">Hey Amélie 💫</h1>
         <p id="main-text">
             From the first time we talked to all the little moments in between,<br />
             these last two months with you have been something special.<br /><br />
             Every date, every laugh, every little look they've all made me feel lucky.<br /><br />
             So I have just one question for you...
         </p>
-        <h1 id="question">Will you be my girlfriend? <span class="emoji">❤️</span></h1>
+        <h1 id="question">Will you be my girlfriend? ❤️</h1>
         <div class="buttons">
-            <button id="yesBtn1">Yes <span class="emoji">😊</span></button>
-            <button id="yesBtn2">Also yes <span class="emoji">😄</span></button>
+            <button id="yesBtn1">Yes 😊</button>
+            <button id="yesBtn2">Also yes 😄</button>
         </div>
 
         <div class="floating-hearts" aria-hidden="true"></div>
 
         <div class="thank-you-screen" id="thankYouScreen" role="dialog" aria-modal="true" aria-labelledby="thankYouTitle">
-            <h2 id="thankYouTitle">YAY! <span class="emoji">😍</span></h2>
+            <h2 id="thankYouTitle">YAY! 😍</h2>
             <p id="thankYouText">Can't wait for what's next with you, Amélie.<br>Thank you for making me the happiest guy.</p>
             <button id="closeThankYou" class="close-btn">Close</button>
         </div>
 
-        <div id="heart-cursor"></div>
+        <div id="heart-cursor">💕</div>
     </div>
 
     <script>
-        // Fixed emoji arrays to prevent changes
-        const FIXED_EMOJIS = {
-            hearts: ['💖', '💕', '💗', '💓', '💝'],
-            sparkles: ['✨', '⭐']
-        };
-
         // Language translations
         const translations = {
             en: {
-                greeting: "Hey Amélie <span class='emoji'>💫</span>",
+                greeting: "Hey Amélie 💫",
                 mainText: "From the first time we talked to all the little moments in between,<br />these last two months with you have been something special.<br /><br />Every date, every laugh, every little look they've all made me feel lucky.<br /><br />So I have just one question for you...",
-                question: "Will you be my girlfriend? <span class='emoji'>❤️</span>",
-                yesBtn1: "Yes <span class='emoji'>😊</span>",
-                yesBtn2: "Also yes <span class='emoji'>😄</span>",
-                thankYouTitle: "YAY! <span class='emoji'>😍</span>",
+                question: "Will you be my girlfriend? ❤️",
+                yesBtn1: "Yes 😊",
+                yesBtn2: "Also yes 😄",
+                thankYouTitle: "YAY! 😍",
                 thankYouText: "Can't wait for what's next with you, Amélie.<br>Thank you for making me the happiest guy.",
                 closeThankYou: "Close",
-                instruction: "Click to open <span class='emoji'>✨</span>"
+                instruction: "Click to open ✨"
             },
             nl: {
-                greeting: "Hey Amélie <span class='emoji'>💫</span>",
+                greeting: "Hey Amélie 💫",
                 mainText: "Vanaf het allereerste moment dat we begonnen te praten tot aan al die kleine momentjes tussendoor<br />de afgelopen twee maanden met jou zijn echt speciaal geweest.<br /><br />Elke date, elke lach, elke blik... stuk voor stuk hebben ze me gelukkig gemaakt.<br /><br />Dus ik heb eigenlijk maar één vraag voor je...",
-                question: "Wil je mijn vriendin worden? <span class='emoji'>❤️</span>",
-                yesBtn1: "Ja <span class='emoji'>😊</span>",
-                yesBtn2: "Ook ja <span class='emoji'>😄</span>",
-                thankYouTitle: "JOEPIE! <span class='emoji'>😍</span>",
+                question: "Wil je mijn vriendin worden? ❤️",
+                yesBtn1: "Ja 😊",
+                yesBtn2: "Ook ja 😄",
+                thankYouTitle: "JOEPIE! 😍",
                 thankYouText: "Kan niet wachten op wat er hierna komt met jou, Amélie.<br>Bedankt dat je me de gelukkigste man maakt.",
                 closeThankYou: "Sluiten",
-                instruction: "Klik om te openen <span class='emoji'>✨</span>"
+                instruction: "Klik om te openen ✨"
             }
         };
 
@@ -713,12 +665,12 @@
             document.getElementById('greeting').innerHTML = t.greeting;
             document.getElementById('main-text').innerHTML = t.mainText;
             document.getElementById('question').innerHTML = t.question;
-            document.getElementById('yesBtn1').innerHTML = t.yesBtn1;
-            document.getElementById('yesBtn2').innerHTML = t.yesBtn2;
-            document.getElementById('thankYouTitle').innerHTML = t.thankYouTitle;
+            document.getElementById('yesBtn1').textContent = t.yesBtn1;
+            document.getElementById('yesBtn2').textContent = t.yesBtn2;
+            document.getElementById('thankYouTitle').textContent = t.thankYouTitle;
             document.getElementById('thankYouText').innerHTML = t.thankYouText;
             document.getElementById('closeThankYou').textContent = t.closeThankYou;
-            document.querySelector('.instruction').innerHTML = t.instruction;
+            document.querySelector('.instruction').textContent = t.instruction;
             
             document.querySelectorAll('.language-btn').forEach(btn => {
                 btn.classList.remove('active');
