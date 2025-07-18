@@ -586,18 +586,29 @@
             });
         }
 
-        function createHeart() {
-            const hearts = ['💖', '💕', '💗', '💓', '💝', '💘', '💌', '💟'];
-            const heart = document.createElement('div');
-            heart.className = 'floating-heart';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (5 + Math.random() * 3) + 's';
-            heart.style.fontSize = (12 + Math.random() * 20) + 'px';
-            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-            floatingHeartsContainer.appendChild(heart);
+function createHeart() {
+    const hearts = [
+        '<img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">', // 💖
+        '<img src="Images/two_hearts_3d.png" alt="Two Hearts" style="height: 1em; width: auto; vertical-align: text-bottom;">',         // 💕
+        '<img src="Images/growing_heart_3d.png" alt="Growing Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">',   // 💗
+        '<img src="Images/beating_heart_3d.png" alt="Beating Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">',   // 💓
+        '<img src="Images/heart_with_ribbon_3d.png" alt="Heart Ribbon" style="height: 1em; width: auto; vertical-align: text-bottom;">', //💝
+        '<img src="Images/heart_with_arrow_3d.png" alt="Heart Arrow" style="height: 1em; width: auto; vertical-align: text-bottom;">', //💘
+        '<img src="Images/love_letter_3d.png" alt="Love Letter" style="height: 1em; width: auto; vertical-align: text-bottom;">', // 💌
+        '<img src="Images/heart_decoration_3d.png" alt="Heart Decoration" style="height: 1em; width: auto; vertical-align: text-bottom;">' // 💟
+    ];
 
-            setTimeout(() => heart.remove(), 8000);
-        }
+    const heart = document.createElement('div');
+    heart.className = 'floating-heart';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (5 + Math.random() * 3) + 's';
+    heart.style.fontSize = (12 + Math.random() * 20) + 'px';
+    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+
+    floatingHeartsContainer.appendChild(heart);
+    setTimeout(() => heart.remove(), 8000);
+}
+
 
         function startHearts() {
             heartsInterval = setInterval(createHeart, 500);
