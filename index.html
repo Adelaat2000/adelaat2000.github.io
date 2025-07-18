@@ -48,7 +48,7 @@
             z-index: 15;
         }
 
-        .language-btn, .envelope-btn {
+        .language-btn {
             background: rgba(255, 255, 255, 0.9);
             border: 2px solid #ff6b9d;
             color: #ff6b9d;
@@ -66,24 +66,63 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            text-decoration: none;
-            font-family: inherit;
-        }
-
-        .language-btn {
-            margin-top: 20px; /* Added margin for spacing */
         }
 
         .envelope-btn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fa3 100%);
+            border: none;
+            color: white;
+            padding: 15px 25px;
+            font-size: clamp(1rem, 3.5vw, 1.1rem);
+            border-radius: 25px;
+            cursor: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 8px 25px rgba(255, 105, 180, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            min-width: 140px;
+            min-height: 50px;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            max-width: 160px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin-top: 1.5rem;
-            padding: 12px 24px;
-            font-size: 1rem;
             animation: gentlePulse 4s infinite;
         }
 
         @keyframes gentlePulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 4px 12px rgba(255, 107, 157, 0.2); }
-            50% { transform: scale(1.05); box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4); }
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 12px 35px rgba(255, 105, 180, 0.6); }
+        }
+
+        .envelope-btn:active {
+            transform: scale(0.95);
+            box-shadow: 
+                0 4px 15px rgba(255, 105, 180, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .envelope-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .envelope-btn:active::before {
+            opacity: 1;
         }
 
         .language-btn.active {
@@ -155,6 +194,66 @@
             background-clip: text;
             animation: numberPulse 2s infinite;
         }
+
+                .buttons {
+            margin-top: 2rem;
+            z-index: 10;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: min(600px, 90vw);
+            padding: 0 10px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fa3 100%);
+            border: none;
+            color: white;
+            padding: 18px 35px;
+            font-size: clamp(1.1rem, 4vw, 1.2rem);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 8px 25px rgba(255, 105, 180, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            min-width: 160px;
+            min-height: 56px;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            flex: 1 1 auto;
+            max-width: 200px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:active {
+            transform: scale(0.95);
+            box-shadow: 
+                0 4px 15px rgba(255, 105, 180, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        button:active::before {
+            opacity: 1;
+        }
+
 
         @keyframes numberPulse {
             0%, 100% { transform: scale(1); }
@@ -278,8 +377,11 @@
             }
 
             .envelope-btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
+                padding: 16px 22px;
+                font-size: 1rem;
+                min-height: 48px;
+                min-width: 130px;
+                max-width: 150px;
             }
 
             .anniversary-counter {
@@ -296,24 +398,42 @@
             .anniversary-counter {
                 padding: 25px 15px;
             }
+
+            .envelope-btn {
+                padding: 14px 20px;
+                font-size: 0.95rem;
+                min-height: 46px;
+                min-width: 120px;
+                max-width: 140px;
+            }
         }
 
         @media (hover: hover) and (pointer: fine) {
-            .language-btn:hover, .envelope-btn:hover {
+            .language-btn:hover {
                 background: #ff6b9d;
                 color: white;
                 transform: scale(1.05);
+            }
+
+            .envelope-btn:hover {
+                background: linear-gradient(135deg, #ff8fa3 0%, #ffb3ba 100%);
+                transform: translateY(-4px) scale(1.05);
+                box-shadow: 
+                    0 12px 35px rgba(255, 105, 180, 0.6),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+                animation: none;
+                cursor: pointer;
             }
         }
     </style>
 </head>
 <body>
-    <div class="sparkle">✨</div>
-    <div class="sparkle">⭐</div>
-    <div class="sparkle">✨</div>
-    <div class="sparkle">⭐</div>
-    <div class="sparkle">✨</div>
-    <div class="sparkle">⭐</div>
+    <div class="sparkle"><img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle"><img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle"><img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
 
     <div class="container">
         <div class="language-selector">
@@ -321,7 +441,10 @@
             <button class="language-btn" data-lang="nl">Nederlands</button>
         </div>
 
-        <div class="heart">💖</div>
+    <div class="heart">
+             <img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 1.5em; width: auto; vertical-align: text-bottom;">
+        </div>
+
         <h1 id="title">Amélie en Alexander</h1>
         
         <div class="anniversary-counter">
@@ -329,10 +452,10 @@
             <p id="days-until-anniversary" class="loading">Loading...</p>
         </div>
 
-        <!-- Envelope Button with consistent styling -->
-        <a href="enevelope.html" class="envelope-btn">💌 Open Envelope</a>
+        <!-- Envelope Button with shorter styling -->
+        <a href="enevelope.html" class="envelope-btn"><img src="Images/love_letter_3d.png" alt="Love Letter Heart" style="height: 1.3em; width: auto; vertical-align: text-bottom;">Open Envelope</a>
 
-        <div id="milestone-message" class="milestone-message" style="display: none;">
+        <div id="milestone-message" class="milestone-message" style="display: none; height: 2rm;">
             <span id="milestone-text"></span>
         </div>
 
@@ -345,8 +468,8 @@
         const translations = {
             en: {
                 title: "Amélie en Alexander",
-                daysTogether: (days) => `Together for <span class="counter-number">${days}</span> day${days !== 1 ? 's' : ''} 💕`,
-                daysUntilAnniversary: (days, milestone) => `Only <span class="counter-number">${days}</span> day${days !== 1 ? 's' : ''} until our ${milestone}! 🎉`,
+                daysTogether: (days) => `Together for <span class="counter-number">${days}</span> day${days !== 1 ? 's' : ''} <img src="Images/two_hearts_3d.png" alt="Two Hearts" style="height: 1.3em; width: auto; vertical-align: text-bottom;">`,
+                daysUntilAnniversary: (days, milestone) => `Only <span class="counter-number">${days}</span> day${days !== 1 ? 's' : ''} until our ${milestone}! <img src="Images/party_popper_3d.png" alt="Party Popper" style="height: 1.3em; width: auto; vertical-align: text-bottom;">`,
                 celebrating: `Celebrating our beautiful love story! 💖`,
                 milestones: {
                     31: "One month together! 🥰",
@@ -357,8 +480,8 @@
             },
             nl: {
                 title: "Amélie en Alexander",
-                daysTogether: (days) => `Al <span class="counter-number">${days}</span> dag${days !== 1 ? 'en' : ''} samen 💕`,
-                daysUntilAnniversary: (days, milestone) => `Nog maar <span class="counter-number">${days}</span> dag${days !== 1 ? 'en' : ''} tot ons ${milestone}! 🎉`,
+                daysTogether: (days) => `Al <span class="counter-number">${days}</span> dag${days !== 1 ? 'en' : ''} samen <img src="Images/two_hearts_3d.png" alt="Two Hearts" style="height: 1.3em; width: auto; vertical-align: text-bottom;">`,
+                daysUntilAnniversary: (days, milestone) => `Nog maar <span class="counter-number">${days}</span> dag${days !== 1 ? 'en' : ''} tot ons ${milestone}! <img src="Images/party_popper_3d.png" alt="Party Popper" style="height: 1.3em; width: auto; vertical-align: text-bottom;">`,
                 celebrating: `Onze prachtige liefde vieren! 💖`,
                 milestones: {
                     31: "Een maand samen! 🥰",
@@ -464,6 +587,36 @@
                 el.classList.remove('loading');
             });
         }
+
+          if (!('ontouchstart' in window)) {
+            window.addEventListener('mousemove', e => {
+                heartCursor.style.left = e.clientX + 'px';
+                heartCursor.style.top = e.clientY + 'px';
+            });
+
+            window.addEventListener('mousedown', () => {
+                heartCursor.style.transform = 'translate(-50%, -50%) scale(1.5) rotate(15deg)';
+            });
+
+            window.addEventListener('mouseup', () => {
+                heartCursor.style.transform = 'translate(-50%, -50%) scale(1) rotate(0deg)';
+            });
+
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    heartCursor.style.display = 'none';
+                    button.style.cursor = 'pointer';
+                });
+                button.addEventListener('mouseleave', () => {
+                    heartCursor.style.display = 'block';
+                });
+            });
+        } else {
+            heartCursor.style.display = 'none';
+            document.body.style.cursor = 'default';
+        }
+
 
         // Floating hearts functionality
         const floatingHeartsContainer = document.querySelector('.floating-hearts');
