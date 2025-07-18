@@ -13,7 +13,6 @@
             animation: gradientShift 8s ease infinite;
             color: #333;
             overflow-x: hidden;
-            cursor: none;
             -webkit-text-size-adjust: 100%;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
@@ -21,6 +20,12 @@
             min-height: -webkit-fill-available;
         }
 
+        @media (hover: hover) and (pointer: fine) {
+        body {
+        cursor: none;
+        }
+    }
+    
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -463,8 +468,8 @@
         <div id="heart-cursor">💕</div>
     </div>
 
-    <script>
-        // Language translations
+   <script>
+    document.addEventListener('DOMContentLoaded', () => {
         const translations = {
             en: {
                 title: "Amélie en Alexander",
@@ -493,16 +498,17 @@
         };
 
         let currentLanguage = 'en';
+        const heartCursor = document.getElementById('heart-cursor');
+        const floatingHeartsContainer = document.querySelector('.floating-hearts');
+        let heartsInterval;
 
         function updateLanguage(lang) {
             currentLanguage = lang;
             const t = translations[lang];
-            
+
             document.getElementById('title').textContent = t.title;
-            
-            // Update the counter with current values
             updateCounter();
-            
+
             document.querySelectorAll('.language-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.getAttribute('data-lang') === lang) {
@@ -512,14 +518,13 @@
         }
 
         document.querySelectorAll('.language-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', e => {
                 e.preventDefault();
                 const lang = btn.getAttribute('data-lang');
                 if (lang) updateLanguage(lang);
             });
         });
 
-        // Date calculations
         const startDate = new Date("2025-07-17");
         const oneMonthLater = new Date("2025-08-17");
         const threeMonthsLater = new Date("2025-10-17");
@@ -534,11 +539,10 @@
         function updateCounter() {
             const today = new Date();
             const daysTogether = calculateDays(startDate, today);
-            
-            // Calculate days until next milestone
+
             let daysUntilMilestone = 0;
             let milestoneText = "";
-            
+
             if (today < oneMonthLater) {
                 daysUntilMilestone = calculateDays(today, oneMonthLater);
                 milestoneText = currentLanguage === 'en' ? "1-month anniversary" : "1-maands jubileum";
@@ -552,76 +556,35 @@
                 daysUntilMilestone = calculateDays(today, oneYearLater);
                 milestoneText = currentLanguage === 'en' ? "1-year anniversary" : "1-jaar jubileum";
             } else {
-                // After 1 year, just show a special message
                 milestoneText = currentLanguage === 'en' ? "celebrating our love" : "onze liefde vieren";
             }
-            
+
             const t = translations[currentLanguage];
-            
             document.getElementById("days-together").innerHTML = t.daysTogether(daysTogether);
-            
+
             if (daysUntilMilestone > 0) {
                 document.getElementById("days-until-anniversary").innerHTML = t.daysUntilAnniversary(daysUntilMilestone, milestoneText);
             } else {
                 document.getElementById("days-until-anniversary").innerHTML = t.celebrating;
             }
-            
-            // Check for milestones
+
             const milestoneMessage = document.getElementById('milestone-message');
             const milestoneTextEl = document.getElementById('milestone-text');
-            
+
             if (t.milestones[daysTogether]) {
                 milestoneTextEl.textContent = t.milestones[daysTogether];
                 milestoneMessage.style.display = 'block';
-                
-                // Create celebration hearts
                 for (let i = 0; i < 15; i++) {
                     setTimeout(createHeart, i * 100);
                 }
             } else {
                 milestoneMessage.style.display = 'none';
             }
-            
-            // Remove loading class
+
             document.querySelectorAll('.loading').forEach(el => {
                 el.classList.remove('loading');
             });
         }
-
-          if (!('ontouchstart' in window)) {
-            window.addEventListener('mousemove', e => {
-                heartCursor.style.left = e.clientX + 'px';
-                heartCursor.style.top = e.clientY + 'px';
-            });
-
-            window.addEventListener('mousedown', () => {
-                heartCursor.style.transform = 'translate(-50%, -50%) scale(1.5) rotate(15deg)';
-            });
-
-            window.addEventListener('mouseup', () => {
-                heartCursor.style.transform = 'translate(-50%, -50%) scale(1) rotate(0deg)';
-            });
-
-            const buttons = document.querySelectorAll('button');
-            buttons.forEach(button => {
-                button.addEventListener('mouseenter', () => {
-                    heartCursor.style.display = 'none';
-                    button.style.cursor = 'pointer';
-                });
-                button.addEventListener('mouseleave', () => {
-                    heartCursor.style.display = 'block';
-                });
-            });
-        } else {
-            heartCursor.style.display = 'none';
-            document.body.style.cursor = 'default';
-        }
-
-
-        // Floating hearts functionality
-        const floatingHeartsContainer = document.querySelector('.floating-hearts');
-        const heartCursor = document.getElementById('heart-cursor');
-        let heartsInterval;
 
         function createHeart() {
             const hearts = ['💖', '💕', '💗', '💓', '💝', '💘', '💌', '💟'];
@@ -633,12 +596,9 @@
             heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
             floatingHeartsContainer.appendChild(heart);
 
-            setTimeout(() => {
-                heart.remove();
-            }, 8000);
+            setTimeout(() => heart.remove(), 8000);
         }
 
-        // Spawn hearts continuously
         function startHearts() {
             heartsInterval = setInterval(createHeart, 500);
         }
@@ -647,16 +607,41 @@
             clearInterval(heartsInterval);
         }
 
-        // Heart cursor movement
-        document.addEventListener('mousemove', (e) => {
-            heartCursor.style.left = e.clientX + 'px';
-            heartCursor.style.top = e.clientY + 'px';
-        });
+        if (!('ontouchstart' in window)) {
+            window.addEventListener('mousemove', e => {
+                if (heartCursor) {
+                    heartCursor.style.left = e.clientX + 'px';
+                    heartCursor.style.top = e.clientY + 'px';
+                }
+            });
 
-        // Initialize page
+            window.addEventListener('mousedown', () => {
+                if (heartCursor) {
+                    heartCursor.style.transform = 'translate(-50%, -50%) scale(1.5) rotate(15deg)';
+                }
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (heartCursor) {
+                    heartCursor.style.transform = 'translate(-50%, -50%) scale(1) rotate(0deg)';
+                }
+            });
+
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    if (heartCursor) heartCursor.style.display = 'none';
+                    button.style.cursor = 'pointer';
+                });
+                button.addEventListener('mouseleave', () => {
+                    if (heartCursor) heartCursor.style.display = 'block';
+                });
+            });
+        } else {
+            if (heartCursor) heartCursor.style.display = 'none';
+            document.body.style.cursor = 'default';
+        }
+
         updateCounter();
         startHearts();
-
-    </script>
-</body>
-</html>
+    });
+</script>
