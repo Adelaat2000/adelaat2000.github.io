@@ -385,6 +385,46 @@
             will-change: transform;
         }
 
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #ff6b9d;
+            color: #ff6b9d;
+            padding: 10px 18px;
+            font-size: 0.9rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 15;
+        }
+        
+        .back-btn {
+                top: 15px;
+                left: 15px;
+            }
+
+                        .language-btn, .back-btn {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+                min-height: 40px;
+            }
+
+                    @media (hover: hover) and (pointer: fine) {
+            .language-btn:hover, .back-btn:hover {
+                background: #ff6b9d;
+                color: white;
+                transform: scale(1.05);
+            }
+        }
+
         @keyframes floatUp {
             0% {
                 transform: translateY(0) scale(1) rotate(0deg);
@@ -597,7 +637,11 @@
             </div>
         </div>
     </div>
-
+    <div class="container">
+        <a href="index.html" class="back-btn">
+            ← <span id="back-text">Back</span>
+        </a>
+        
     <div id="main-content">
         <div class="language-selector">
             <button class="language-btn active" data-lang="en">English</button>
@@ -631,6 +675,7 @@
 
     <script>
         // Language translations
+        
         const translations = {
             en: {
                 greeting: "Hey Amélie 💫",
