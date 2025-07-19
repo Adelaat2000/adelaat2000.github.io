@@ -73,7 +73,7 @@
             justify-content: center;
         }
 
-        .envelope-btn {
+        .envelope-btn, .dates-btn {
             background: linear-gradient(135deg, #ff6b9d 0%, #ff8fa3 100%);
             border: none;
             color: white;
@@ -98,8 +98,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 1.5rem;
+            margin: 0.75rem 0.5rem;
             animation: gentlePulse 4s infinite;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1.5rem;
+            max-width: min(600px, 90vw);
         }
 
         @keyframes gentlePulse {
@@ -107,14 +116,14 @@
             50% { transform: scale(1.05); box-shadow: 0 12px 35px rgba(255, 105, 180, 0.6); }
         }
 
-        .envelope-btn:active {
+        .envelope-btn:active, .dates-btn:active {
             transform: scale(0.95);
             box-shadow: 
                 0 4px 15px rgba(255, 105, 180, 0.6),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
         }
 
-        .envelope-btn::before {
+        .envelope-btn::before, .dates-btn::before {
             content: '';
             position: absolute;
             top: 0;
@@ -126,7 +135,7 @@
             transition: opacity 0.3s ease;
         }
 
-        .envelope-btn:active::before {
+        .envelope-btn:active::before, .dates-btn:active::before {
             opacity: 1;
         }
 
@@ -200,7 +209,7 @@
             animation: numberPulse 2s infinite;
         }
 
-                .buttons {
+        .buttons {
             margin-top: 2rem;
             z-index: 10;
             display: flex;
@@ -381,7 +390,7 @@
                 min-width: 40px;
             }
 
-            .envelope-btn {
+            .envelope-btn, .dates-btn {
                 padding: 16px 22px;
                 font-size: 1rem;
                 min-height: 48px;
@@ -404,7 +413,7 @@
                 padding: 25px 15px;
             }
 
-            .envelope-btn {
+            .envelope-btn, .dates-btn {
                 padding: 14px 20px;
                 font-size: 0.95rem;
                 min-height: 46px;
@@ -420,7 +429,7 @@
                 transform: scale(1.05);
             }
 
-            .envelope-btn:hover {
+            .envelope-btn:hover, .dates-btn:hover {
                 background: linear-gradient(135deg, #ff8fa3 0%, #ffb3ba 100%);
                 transform: translateY(-4px) scale(1.05);
                 box-shadow: 
@@ -457,8 +466,11 @@
             <p id="days-until-anniversary" class="loading">Loading...</p>
         </div>
 
-        <!-- Envelope Button with shorter styling -->
-        <a href="enevelope.html" class="envelope-btn"><img src="Images/love_letter_3d.png" alt="Love Letter Heart" style="height: 1.3em; width: auto; vertical-align: text-bottom;">Open Envelope</a>
+        <!-- Buttons Container -->
+        <div class="buttons-container">
+            <a href="enevelope.html" class="envelope-btn"><img src="Images/love_letter_3d.png" alt="Love Letter Heart" style="height: 1.3em; width: auto; vertical-align: text-bottom;">Open Envelope</a>
+            <a href="dates.html" class="dates-btn"><img src="Images/party_popper_3d.png" alt="Calendar" style="height: 1.3em; width: auto; vertical-align: text-bottom;">Dates</a>
+        </div>
 
         <div id="milestone-message" class="milestone-message" style="display: none; height: 2rm;">
             <span id="milestone-text"></span>
@@ -638,12 +650,24 @@ function createHeart() {
                 }
             });
 
+            // Handle cursor for buttons (language buttons)
             document.querySelectorAll('button').forEach(button => {
                 button.addEventListener('mouseenter', () => {
                     if (heartCursor) heartCursor.style.display = 'none';
                     button.style.cursor = 'pointer';
                 });
                 button.addEventListener('mouseleave', () => {
+                    if (heartCursor) heartCursor.style.display = 'block';
+                });
+            });
+
+            // Handle cursor for the envelope and dates buttons (anchor elements)
+            document.querySelectorAll('.envelope-btn, .dates-btn').forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    if (heartCursor) heartCursor.style.display = 'none';
+                    btn.style.cursor = 'pointer';
+                });
+                btn.addEventListener('mouseleave', () => {
                     if (heartCursor) heartCursor.style.display = 'block';
                 });
             });
