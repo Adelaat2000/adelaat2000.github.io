@@ -394,12 +394,12 @@
     </style>
 </head>
 <body>
-    <div class="sparkle">✨</div>
-    <div class="sparkle">⭐</div>
-    <div class="sparkle">✨</div>
-    <div class="sparkle">⭐</div>
-    <div class="sparkle">✨</div>
-    <div class="sparkle">⭐</div>
+    <div class="sparkle"><img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle"><img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle"><img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
 
     <div class="container">
         <a href="index.html" class="back-btn">
@@ -411,7 +411,10 @@
             <button class="language-btn" data-lang="nl">Nederlands</button>
         </div>
 
-        <div class="heart">💖</div>
+<div class="heart">
+  <img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 1.5em; width: auto; vertical-align: text-bottom;">
+</div>
+
 
         <h1 id="title">Our Beautiful Dates</h1>
         <p id="subtitle" class="subtitle">Precious memories together</p>
@@ -557,13 +560,22 @@
                 if (heartCreationTimeout) return;
                 
                 heartCreationTimeout = setTimeout(() => {
-                    const hearts = ['💖', '💕', '💝', '💗', '💓', '💞', '💘', '💌'];
+    const hearts = [
+      '<img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">', // 💖
+      '<img src="Images/two_hearts_3d.png" alt="Two Hearts" style="height: 1em; width: auto; vertical-align: text-bottom;">',         // 💕
+      '<img src="Images/growing_heart_3d.png" alt="Growing Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">',   // 💗
+      '<img src="Images/beating_heart_3d.png" alt="Beating Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">',   // 💓
+      '<img src="Images/heart_with_ribbon_3d.png" alt="Heart Ribbon" style="height: 1em; width: auto; vertical-align: text-bottom;">', //💝
+      '<img src="Images/heart_with_arrow_3d.png" alt="Heart Arrow" style="height: 1em; width: auto; vertical-align: text-bottom;">', //💘
+      '<img src="Images/love_letter_3d.png" alt="Love Letter" style="height: 1em; width: auto; vertical-align: text-bottom;">', // 💌
+      '<img src="Images/heart_decoration_3d.png" alt="Heart Decoration" style="height: 1em; width: auto; vertical-align: text-bottom;">' // 💟
+    ];
                     const heart = document.createElement('div');
                     heart.className = 'floating-heart';
                     heart.style.left = Math.random() * 100 + 'vw';
                     heart.style.animationDuration = (5 + Math.random() * 3) + 's';
                     heart.style.fontSize = (12 + Math.random() * 20) + 'px';
-                    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
 
                     floatingHeartsContainer.appendChild(heart);
                     setTimeout(() => {
@@ -610,8 +622,8 @@
                         : '';
                     
                     const placeholderContent = !date.hasImage || !date.image 
-                        ? `<div class="date-image">${date.isUpcoming ? '📅' : '📸'}</div>`
-                        : `<div class="date-image" style="display:none">${date.isUpcoming ? '📅' : '📸'}</div>`;
+                        ? `<div class="date-image">${date.isUpcoming ? '<img src="Images/calendar_3d.png" alt="Calendar" style="height: 1.2em; width: auto; vertical-align: text-bottom; opacity: 0.5;">' : '<img src="Images/camera_with_flash_3d.png" alt="Camera" style="height: 1.2em; width: auto; vertical-align: text-bottom; opacity: 0.5;">'}</div>`
+                        : `<div class="date-image" style="display:none">${date.isUpcoming ? '<img src="Images/calendar_3d.png" alt="Calendar" style="height: 1.2em; width: auto; vertical-align: text-bottom; opacity: 0.5;">' : '<img src="Images/camera_with_flash_3d.png" alt="Camera" style="height: 1.2em; width: auto; vertical-align: text-bottom;">'}</div>`;
 
                     dateCard.innerHTML = `
                         ${imageContent}
