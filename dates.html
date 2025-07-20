@@ -183,6 +183,12 @@
             border-radius: 15px;
             margin-bottom: 15px;
             transition: transform 0.3s ease;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 107, 157, 0.6);
+            font-size: 3rem;
         }
 
         .date-card:hover .date-image {
@@ -337,6 +343,12 @@
             color: #ff8fa3;
         }
 
+        .loading-placeholder {
+            color: rgba(255, 107, 157, 0.4);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
         @media (max-width: 768px) {
             .dates-grid {
                 grid-template-columns: 1fr;
@@ -382,12 +394,12 @@
     </style>
 </head>
 <body>
-    <div class="sparkle"><img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
-    <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
-    <div class="sparkle"><img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
-    <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
-    <div class="sparkle"><img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
-    <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle">✨</div>
+    <div class="sparkle">⭐</div>
+    <div class="sparkle">✨</div>
+    <div class="sparkle">⭐</div>
+    <div class="sparkle">✨</div>
+    <div class="sparkle">⭐</div>
 
     <div class="container">
         <a href="index.html" class="back-btn">
@@ -399,9 +411,7 @@
             <button class="language-btn" data-lang="nl">Nederlands</button>
         </div>
 
-        <div class="heart">
-            <img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 1.5em; width: auto; vertical-align: text-bottom;">
-        </div>
+        <div class="heart">💖</div>
 
         <h1 id="title">Our Beautiful Dates</h1>
         <p id="subtitle" class="subtitle">Precious memories together</p>
@@ -411,10 +421,10 @@
         </div>
 
         <!-- Modal for viewing full-size images -->
-        <div id="imageModal" class="modal">
+        <div id="imageModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
             <div class="modal-content">
-                <span class="close">&times;</span>
-                <img id="modalImage" class="modal-image" src="" alt="">
+                <span class="close" aria-label="Close modal">&times;</span>
+                <img id="modalImage" class="modal-image" src="" alt="" loading="lazy">
                 <h2 id="modalTitle" class="date-title"></h2>
                 <p id="modalDate" class="date-info"></p>
                 <p id="modalLocation" class="date-info"></p>
@@ -432,16 +442,20 @@
                 en: {
                     title: "Our Beautiful Dates",
                     subtitle: "Precious memories together",
-                    back: "Back"
+                    back: "Back",
+                    noImage: "No image yet",
+                    comingSoon: "Coming soon..."
                 },
                 nl: {
                     title: "Onze Prachtige Dates",
                     subtitle: "Kostbare herinneringen samen",
-                    back: "Terug"
+                    back: "Terug",
+                    noImage: "Nog geen foto",
+                    comingSoon: "Binnenkort..."
                 }
             };
 
-            // Sample date data - replace
+            // Date data with validation and fallbacks
             const dates = [
                 {
                     id: 1,
@@ -453,7 +467,8 @@
                         en: "Our first date was really something special. We started at that coffee place with the most awkward little table, but it was fun anyway. Then the arcade was a blast, and finishing up with a nice chat in the park made it all feel natural.", 
                         nl: "Onze eerste date was echt bijzonder. We begonnen bij dat koffietentje met het meest ongemakkelijke kleine tafeltje, maar het was alsnog leuk. Daarna was de arcade super gezellig en afsluiten met een fijn gesprek in het park maakte het helemaal natuurlijk" 
                     },
-                    image: ""
+                    image: "",
+                    hasImage: false
                 },
                 {
                     id: 2,
@@ -463,9 +478,10 @@
                     location: { en: "Breda", nl: "Breda" },
                     description: { 
                         en: "Exploring Breda with you just felt easy and special. Walking through stores together and trying out different fragrances was actually so fun. And sitting down at Soju Bar after all that it was the kind of moment that just made me smile.",
-                        nl: "Samen Breda verkennen met jou voelde gewoon relaxed en speciaal. Samen winkels inlopen en geurtjes uitproberen was stiekem echt leuk. En daarna samen zitten bij Soju Bar dat was zo’n moment waar ik alleen maar van kon glimlachen."
+                        nl: "Samen Breda verkennen met jou voelde gewoon relaxed en speciaal. Samen winkels inlopen en geurtjes uitproberen was stiekem echt leuk. En daarna samen zitten bij Soju Bar dat was zo'n moment waar ik alleen maar van kon glimlachen."
                     },
-                    image: ""
+                    image: "",
+                    hasImage: false
                 },
                 {
                     id: 3,
@@ -477,47 +493,53 @@
                         en: "Going to Diergaarde Blijdorp with you was already such a good day and that little matcha café after made it even more fun. But asking you to be my girlfriend that evening... that made it perfect.", 
                         nl: "Samen naar Diergaarde Blijdorp gaan was al zo'n leuke dag en dat schattige matcha café daarna maakte het alleen maar beter. Maar jou die avond vragen om mijn vriendin te zijn... dat maakte alles perfect." 
                     },
-                    image: ""
+                    image: "",
+                    hasImage: false
                 },
                 {
                     id: 4,
-                    title: { en: "Gym and Art date", nl: "Gym and Art date" },
+                    title: { en: "Gym and Art Date", nl: "Gym and Art Date" },
                     date: "July 22, 2025",
                     dateNl: "22 juli 2025",
                     location: { en: "Made", nl: "Made" },
                     description: { 
-                        en: "...", 
-                        nl: "..." 
+                        en: "A perfect combination of staying active together and appreciating beautiful art. Every moment with you feels like a masterpiece.", 
+                        nl: "Een perfecte combinatie van samen actief zijn en mooie kunst waarderen. Elk moment met jou voelt als een meesterwerk." 
                     },
-                    image: ""
+                    image: "",
+                    hasImage: false
                 },
                 {
                     id: 5,
-                    title: { en: "Upcoming", nl: "Upcoming" },
+                    title: { en: "Coming Soon", nl: "Binnenkort" },
                     date: "",
                     dateNl: "",
-                    location: { en: "", nl: "" },
+                    location: { en: "TBD", nl: "Nog te bepalen" },
                     description: { 
-                        en: "Surrounded by masterpieces, but you were the most beautiful art I could admire.", 
-                        nl: "Omringd door meesterwerken, maar jij was de mooiste kunst die ik kon bewonderen." 
+                        en: "Our next adventure awaits. Every day with you is a new chapter.", 
+                        nl: "Ons volgende avontuur wacht. Elke dag met jou is een nieuw, hoofdstuk." 
                     },
-                    image: ""
+                    image: "",
+                    hasImage: false,
+                    isUpcoming: true
                 },
                 {
                     id: 6,
-                    title: { en: "Upcoming", nl: "Upcoming" },
+                    title: { en: "Coming Soon", nl: "Binnenkort" },
                     date: "",
                     dateNl: "",
-                    location: { en: "", nl: "" },
+                    location: { en: "TBD", nl: "Nog te bepalen" },
                     description: { 
-                        en: "...", 
-                        nl: "..." 
+                        en: "More memories to be made together. The best is yet to come.", 
+                        nl: "Meer herinneringen om samen te maken. Het beste moet nog komen." 
                     },
-                    image: ""
+                    image: "",
+                    hasImage: false,
+                    isUpcoming: true
                 }
             ];
 
-            let currentLanguage = 'en';
+            let currentLanguage = localStorage.getItem('preferred-language') || 'en';
             const heartCursor = document.getElementById('heart-cursor');
             const floatingHeartsContainer = document.querySelector('.floating-hearts');
             const modal = document.getElementById('imageModal');
@@ -529,129 +551,185 @@
             const closeModal = document.querySelector('.close');
             let heartsInterval;
 
+            // Debounced heart creation for performance
+            let heartCreationTimeout;
+            function createHeart() {
+                if (heartCreationTimeout) return;
+                
+                heartCreationTimeout = setTimeout(() => {
+                    const hearts = ['💖', '💕', '💝', '💗', '💓', '💞', '💘', '💌'];
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (5 + Math.random() * 3) + 's';
+                    heart.style.fontSize = (12 + Math.random() * 20) + 'px';
+                    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+
+                    floatingHeartsContainer.appendChild(heart);
+                    setTimeout(() => {
+                        if (heart && heart.parentNode) {
+                            heart.remove();
+                        }
+                    }, 8000);
+                    
+                    heartCreationTimeout = null;
+                }, 100);
+            }
+
             function updateLanguage(lang) {
+                if (!translations[lang]) return;
+                
                 currentLanguage = lang;
+                localStorage.setItem('preferred-language', lang);
                 const t = translations[lang];
 
-                document.getElementById('title').textContent = t.title;
-                document.getElementById('subtitle').textContent = t.subtitle;
-                document.getElementById('back-text').textContent = t.back;
+                // Batch DOM updates
+                requestAnimationFrame(() => {
+                    document.getElementById('title').textContent = t.title;
+                    document.getElementById('subtitle').textContent = t.subtitle;
+                    document.getElementById('back-text').textContent = t.back;
 
-                document.querySelectorAll('.language-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.getAttribute('data-lang') === lang) {
-                        btn.classList.add('active');
-                    }
+                    document.querySelectorAll('.language-btn').forEach(btn => {
+                        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+                    });
+
+                    renderDates();
                 });
-
-                renderDates();
             }
 
             function renderDates() {
                 const grid = document.getElementById('dates-grid');
-                grid.innerHTML = '';
+                const fragment = document.createDocumentFragment();
 
                 dates.forEach(date => {
                     const dateCard = document.createElement('div');
                     dateCard.className = 'date-card';
+                    
+                    const imageContent = date.hasImage && date.image 
+                        ? `<img class="date-image" src="${date.image}" alt="${date.title[currentLanguage] || 'Date image'}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">`
+                        : '';
+                    
+                    const placeholderContent = !date.hasImage || !date.image 
+                        ? `<div class="date-image">${date.isUpcoming ? '📅' : '📸'}</div>`
+                        : `<div class="date-image" style="display:none">${date.isUpcoming ? '📅' : '📸'}</div>`;
+
                     dateCard.innerHTML = `
-                        <img class="date-image" src="${date.image}" alt="${date.title[currentLanguage]}" loading="lazy">
-                        <div class="date-title">${date.title[currentLanguage]}</div>
-                        <div class="date-info">${currentLanguage === 'en' ? date.date : date.dateNl}</div>
-                        <div class="date-info">${date.location[currentLanguage]}</div>
-                        <div class="date-description">${date.description[currentLanguage]}</div>
+                        ${imageContent}
+                        ${placeholderContent}
+                        <div class="date-title">${date.title[currentLanguage] || ''}</div>
+                        <div class="date-info">${(currentLanguage === 'en' ? date.date : date.dateNl) || (date.isUpcoming ? translations[currentLanguage].comingSoon : '')}</div>
+                        <div class="date-info">${date.location[currentLanguage] || ''}</div>
+                        <div class="date-description">${date.description[currentLanguage] || ''}</div>
                     `;
 
-                    dateCard.addEventListener('click', () => {
-                        modalImage.src = date.image;
-                        modalImage.alt = date.title[currentLanguage];
-                        modalTitle.textContent = date.title[currentLanguage];
-                        modalDate.textContent = currentLanguage === 'en' ? date.date : date.dateNl;
-                        modalLocation.textContent = date.location[currentLanguage];
-                        modalDescription.textContent = date.description[currentLanguage];
-                        modal.style.display = 'block';
-                        createHeart();
-                    });
+                    // Only add click handler for cards with actual content
+                    if (!date.isUpcoming || date.hasImage) {
+                        dateCard.addEventListener('click', () => openModal(date));
+                    }
 
-                    grid.appendChild(dateCard);
+                    fragment.appendChild(dateCard);
                 });
+
+                grid.innerHTML = '';
+                grid.appendChild(fragment);
             }
 
-            // Language selector event listeners
+            function openModal(date) {
+                if (!date) return;
+                
+                modalImage.src = date.image || '';
+                modalImage.alt = date.title[currentLanguage] || 'Date image';
+                modalTitle.textContent = date.title[currentLanguage] || '';
+                modalDate.textContent = (currentLanguage === 'en' ? date.date : date.dateNl) || '';
+                modalLocation.textContent = date.location[currentLanguage] || '';
+                modalDescription.textContent = date.description[currentLanguage] || '';
+                
+                modal.style.display = 'block';
+                createHeart();
+                
+                // Focus management for accessibility
+                closeModal.focus();
+            }
+
+            function closeModalHandler() {
+                modal.style.display = 'none';
+            }
+
+            // Event listeners with proper error handling
             document.querySelectorAll('.language-btn').forEach(btn => {
                 btn.addEventListener('click', e => {
                     e.preventDefault();
                     const lang = btn.getAttribute('data-lang');
-                    if (lang) updateLanguage(lang);
+                    if (lang && translations[lang]) {
+                        updateLanguage(lang);
+                    }
                 });
             });
 
             // Modal event listeners
-            closeModal.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
+            closeModal.addEventListener('click', closeModalHandler);
 
-            window.addEventListener('click', (e) => {
+            // Close modal on outside click
+            modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
-                    modal.style.display = 'none';
+                    closeModalHandler();
                 }
             });
 
-            function createHeart() {
-                const hearts = [
-                    '<img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">',
-                    '<img src="Images/two_hearts_3d.png" alt="Two Hearts" style="height: 1em; width: auto; vertical-align: text-bottom;">',
-                    '<img src="Images/growing_heart_3d.png" alt="Growing Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">',
-                    '<img src="Images/beating_heart_3d.png" alt="Beating Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">',
-                    '<img src="Images/heart_with_ribbon_3d.png" alt="Heart Ribbon" style="height: 1em; width: auto; vertical-align: text-bottom;">',
-                    '<img src="Images/heart_with_arrow_3d.png" alt="Heart Arrow" style="height: 1em; width: auto; vertical-align: text-bottom;">',
-                    '<img src="Images/love_letter_3d.png" alt="Love Letter" style="height: 1em; width: auto; vertical-align: text-bottom;">',
-                    '<img src="Images/heart_decoration_3d.png" alt="Heart Decoration" style="height: 1em; width: auto; vertical-align: text-bottom;">'
-                ];
-
-                const heart = document.createElement('div');
-                heart.className = 'floating-heart';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = (5 + Math.random() * 3) + 's';
-                heart.style.fontSize = (12 + Math.random() * 20) + 'px';
-                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
-
-                floatingHeartsContainer.appendChild(heart);
-                setTimeout(() => heart.remove(), 8000);
-            }
+            // Close modal on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.style.display === 'block') {
+                    closeModalHandler();
+                }
+            });
 
             function startHearts() {
+                if (heartsInterval) clearInterval(heartsInterval);
                 heartsInterval = setInterval(createHeart, 800);
             }
 
-            // Mouse cursor handling
-            if (!('ontouchstart' in window)) {
+            function stopHearts() {
+                if (heartsInterval) {
+                    clearInterval(heartsInterval);
+                    heartsInterval = null;
+                }
+            }
+
+            // Optimized mouse cursor handling
+            if (!('ontouchstart' in window) && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                let mouseX = 0, mouseY = 0;
+                let animationFrame;
+
+                function updateCursor() {
+                    if (heartCursor) {
+                        heartCursor.style.left = mouseX + 'px';
+                        heartCursor.style.top = mouseY + 'px';
+                    }
+                    animationFrame = null;
+                }
+
                 window.addEventListener('mousemove', e => {
-                    if (heartCursor) {
-                        heartCursor.style.left = e.clientX + 'px';
-                        heartCursor.style.top = e.clientY + 'px';
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    
+                    if (!animationFrame) {
+                        animationFrame = requestAnimationFrame(updateCursor);
                     }
                 });
 
-                window.addEventListener('mousedown', () => {
-                    if (heartCursor) {
-                        heartCursor.style.transform = 'translate(-50%, -50%) scale(1.5) rotate(15deg)';
-                    }
-                });
+                const scaleUp = () => heartCursor?.style.setProperty('transform', 'translate(-50%, -50%) scale(1.5) rotate(15deg)');
+                const scaleDown = () => heartCursor?.style.setProperty('transform', 'translate(-50%, -50%) scale(1) rotate(0deg)');
 
-                window.addEventListener('mouseup', () => {
-                    if (heartCursor) {
-                        heartCursor.style.transform = 'translate(-50%, -50%) scale(1) rotate(0deg)';
-                    }
-                });
+                window.addEventListener('mousedown', scaleUp);
+                window.addEventListener('mouseup', scaleDown);
 
-                // Handle cursor for buttons
-                document.querySelectorAll('button, a').forEach(button => {
-                    button.addEventListener('mouseenter', () => {
+                // Handle cursor for interactive elements
+                document.querySelectorAll('button, a, .date-card').forEach(element => {
+                    element.addEventListener('mouseenter', () => {
                         if (heartCursor) heartCursor.style.display = 'none';
-                        button.style.cursor = 'pointer';
+                        element.style.cursor = 'pointer';
                     });
-                    button.addEventListener('mouseleave', () => {
+                    element.addEventListener('mouseleave', () => {
                         if (heartCursor) heartCursor.style.display = 'block';
                     });
                 });
@@ -660,8 +738,17 @@
                 document.body.style.cursor = 'default';
             }
 
-            // Initialize
-            renderDates();
+            // Performance: Pause hearts when page is hidden
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    stopHearts();
+                } else {
+                    startHearts();
+                }
+            });
+
+            // Initialize with saved language preference
+            updateLanguage(currentLanguage);
             startHearts();
         });
     </script>
