@@ -40,7 +40,7 @@
             min-height: 100vh;
             min-height: -webkit-fill-available;
             text-align: center;
-            padding: 20px;
+            padding: 55px 20px 20px 20px;
             position: relative;
         }
 
@@ -350,6 +350,10 @@
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: 90px 15px 15px 15px;
+            }
+
             .dates-grid {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
@@ -373,14 +377,16 @@
                 min-height: 40px;
             }
 
-            .container {
-                padding: 15px;
-            }
-
             .modal-content {
                 margin: 10% auto;
                 padding: 20px;
                 width: 95%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 100px 15px 15px 15px;
             }
         }
 
@@ -412,7 +418,7 @@
         </div>
 
 <div class="heart">
-  <img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 1.5em; width: auto; vertical-align: text-bottom;">
+  <img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 2.3em; width: auto; vertical-align: text-bottom;">
 </div>
 
 
@@ -506,7 +512,7 @@
                     dateNl: "22 juli 2025",
                     location: { en: "Made", nl: "Made" },
                     description: { 
-                        en: "We cooked together, we drew side by side, and we explored a quiet little nature park that felt like our own world. That was the day of our first kiss gentle, warm, and unforgettable. You gave me a custom flower and the sweetest drawing, and I couldn’t stop smiling. Every part of that day felt truly special.", 
+                        en: "We cooked together, we drew side by side, and we explored a quiet little nature park that felt like our own world. That was the day of our first kiss gentle, warm, and unforgettable. You gave me a custom flower and the sweetest drawing, and I couldn't stop smiling. Every part of that day felt truly special.", 
                         nl: "We kookten samen, we tekenden zij aan zij, en we verkenden een rustig klein natuurpark dat aanvoelde als onze eigen wereld. Dat was de dag van onze eerste kus zacht, warm en onvergetelijk. Je gaf me een zelfgemaakte bloem en de liefste tekening, en ik kon niet stoppen met glimlachen. Elk moment van die dag voelde echt speciaal." 
                     },
                     image: "Images/Date_4.png",
@@ -767,4 +773,3 @@ heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
     </script>
 </body>
 </html>
-
