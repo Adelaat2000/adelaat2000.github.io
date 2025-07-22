@@ -641,12 +641,12 @@
 </head>
 <body>
     <div id="envelope-container" aria-label="Click to open the envelope">
-        <div class="instruction">Click to open ✨</div>
+        <div class="instruction">Click to open <img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
         <div class="envelope-wrapper">
-            <div class="sparkle">✨</div>
-            <div class="sparkle">⭐</div>
-            <div class="sparkle">✨</div>
-            <div class="sparkle">⭐</div>
+            <div class="sparkle"><img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+            <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+            <div class="sparkle"><img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+            <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
             <div class="envelope" role="img" aria-hidden="true">
                 <div class="back-flap-left"></div>
                 <div class="back-flap-right"></div>
@@ -659,7 +659,7 @@
                     </div>
                 </div>
                 <div class="front-flap" id="frontFlap"></div>
-                <div class="heart-seal">💕</div>
+                <div class="heart-seal"><img src="Images/two_hearts_3d.png" alt="Two Hearts" style="height: 1.5em; width: auto; vertical-align: text-bottom;"></div>
             </div>
         </div>
     </div>
@@ -681,24 +681,24 @@
             <button class="language-btn" data-lang="nl">Nederlands</button>
         </div>
 
-        <div class="heart">💖</div>
-        <h1 id="greeting">Hey Amélie 💫</h1>
+        <div class="heart"><img src="Images/sparkling_heart_3d.png" alt="Sparking Heart" style="height: 2.3em; width: auto; vertical-align: text-bottom;"></div>
+        <h1 id="greeting">Hey Amélie <img src="Images/dizzy_3d.png" alt="Dizzy" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></h1>
         <p id="main-text">
             From the first time we talked to all the little moments in between,<br />
             all the moments with you have been something special.<br /><br />
             Every date, every laugh, every chat, every little look they've all made me feel lucky.<br /><br />
             So I have just one question for you...
         </p>
-        <h1 id="question">Will you be my girlfriend? ❤️</h1>
+        <h1 id="question">Will you be my girlfriend? <img src="Images/red_heart_3d.png" alt="Red Heart" style="height: 2.3em; width: auto; vertical-align: text-bottom;"></h1>
         <div class="buttons">
-            <button id="yesBtn1">Yes 😊</button>
-            <button id="yesBtn2">Also yes 😄</button>
+            <button id="yesBtn1">Yes <img src="Images/smiling_face_3d.png" alt="Smiling Face" style="height: 2.3em; width: auto; vertical-align: text-bottom;"></button>
+            <button id="yesBtn2">Also yes <img src="Images/grinning_face_with_smiling_eyes_3d.png" alt="Grinning Face" style="height: 2.3em; width: auto; vertical-align: text-bottom;"></button>
         </div>
 
         <div class="floating-hearts" aria-hidden="true"></div>
 
         <div class="thank-you-screen" id="thankYouScreen" role="dialog" aria-modal="true" aria-labelledby="thankYouTitle">
-            <h2 id="thankYouTitle">YAY! 😍</h2>
+            <h2 id="thankYouTitle">YAY! <img src="Images/smiling_face_with_heart-eyes_3d.png" alt="Smiling Face" style="height: 2.3em; width: auto; vertical-align: text-bottom;"></h2>
             <p id="thankYouText">Can't wait for what's next with you, Amélie.<br>Thank you for making me the happiest guy.</p>
             <button id="closeThankYou" class="close-btn">Close</button>
         </div>
@@ -809,10 +809,16 @@
         let heartsInterval;
 
         function createHeart() {
-            const hearts = ['💖', '💕', '💗', '💓', '💝'];
+            const hearts = [
+                '<img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">', // 💖
+                '<img src="Images/two_hearts_3d.png" alt="Two Hearts" style="height: 1em; width: auto; vertical-align: text-bottom;">',         // 💕
+                '<img src="Images/growing_heart_3d.png" alt="Growing Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">',   // 💗
+                '<img src="Images/beating_heart_3d.png" alt="Beating Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">',   // 💓
+                '<img src="Images/heart_with_ribbon_3d.png" alt="Heart Ribbon" style="height: 1em; width: auto; vertical-align: text-bottom;">', //💝
+        ];
             const heart = document.createElement('div');
             heart.classList.add('floating-heart');
-            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.fontSize = (16 + Math.random() * 12) + 'px';
             heart.style.animationDuration = (5 + Math.random() * 3) + 's';
