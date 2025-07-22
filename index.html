@@ -36,11 +36,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             min-height: 100vh;
             min-height: -webkit-fill-available;
             text-align: center;
-            padding: 20px;
+            padding: 55px 20px 20px 20px;
             position: relative;
         }
 
@@ -51,11 +51,6 @@
             display: flex;
             gap: 10px;
             z-index: 15;
-            transform: none;
-            filter: none;
-            backdrop-filter: none;
-            box-shadow: none;
-            opacity: 1;
         }
 
         .language-btn {
@@ -94,11 +89,11 @@
             box-shadow: 
                 0 8px 25px rgba(255, 105, 180, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            min-width: 140px;
+            min-width: 160px;
+            max-width: 160px;
             min-height: 50px;
             font-weight: 600;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-            max-width: 160px;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
             position: relative;
@@ -277,7 +272,6 @@
             opacity: 1;
         }
 
-
         @keyframes numberPulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
@@ -347,8 +341,6 @@
             will-change: transform;
         }
 
-        
-
         @keyframes floatUp {
             0% {
                 transform: translateY(0) scale(1) rotate(0deg);
@@ -390,19 +382,13 @@
         /* Mobile-specific styles */
         @media (max-width: 768px) {
             .container {
-                /* Add top padding to push content down below the language buttons */
-                padding-top: 80px;
-                padding-left: 15px;
-                padding-right: 15px;
-                padding-bottom: 15px;
+                padding: 90px 15px 15px 15px;
             }
 
             .language-selector {
                 top: 15px;
                 right: 15px;
                 gap: 8px;
-                /* Ensure it's always visible on top */
-                position: fixed;
             }
 
             .language-btn, .back-btn {
@@ -427,8 +413,7 @@
 
         @media (max-width: 480px) {
             .container {
-                /* Even more top padding for smaller screens */
-                padding-top: 90px;
+                padding: 100px 15px 15px 15px;
             }
             
             .anniversary-counter {
@@ -445,13 +430,9 @@
         }
 
         @media (hover: hover) and (pointer: fine) {
-            /* Desktop-only styles - reset mobile adjustments */
+            /* Desktop-only styles */
             .container {
-                padding: 20px;
-            }
-            
-            .language-selector {
-                position: absolute;
+                padding: 55px 20px 20px 20px;
             }
             
             .language-btn:hover {
@@ -481,13 +462,13 @@
     <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
 
     <div class="container">
+        <!-- Language selector moved INSIDE container to match dates page -->
         <div class="language-selector">
             <button class="language-btn active" data-lang="en">English</button>
             <button class="language-btn" data-lang="nl">Nederlands</button>
         </div>
-
-    <div class="heart">
-             <img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 2em; width: auto; vertical-align: text-bottom;">
+        <div class="heart">
+             <img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 2.3em; width: auto; vertical-align: text-bottom;">
         </div>
 
         <h1 id="title">Amélie en Alexander</h1>
@@ -649,7 +630,7 @@
                 '<img src="Images/growing_heart_3d.png" alt="Growing Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">',   // 💗
                 '<img src="Images/beating_heart_3d.png" alt="Beating Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">',   // 💓
                 '<img src="Images/heart_with_ribbon_3d.png" alt="Heart Ribbon" style="height: 1em; width: auto; vertical-align: text-bottom;">', //💝
-                '<img src="Images/heart_with_arrow_3d.png" alt="Heart Arrow" style="height: 1em; width: auto; vertical-align: text-bottom;">', //💘
+                '<img src="Images/heart_with_arrow_3d.png" alt="Heart Arrow" style="height: 1.3em; width: auto; vertical-align: text-bottom;">', //💘
                 '<img src="Images/love_letter_3d.png" alt="Love Letter" style="height: 1em; width: auto; vertical-align: text-bottom;">', // 💌
                 '<img src="Images/heart_decoration_3d.png" alt="Heart Decoration" style="height: 1em; width: auto; vertical-align: text-bottom;">' // 💟
             ];
