@@ -470,8 +470,8 @@
                         en: "Our first date was really something special. We started at that coffee place with the most awkward little table, but it was fun anyway. Then the arcade was a blast, and finishing up with a nice chat in the park made it all feel natural.", 
                         nl: "Onze eerste date was echt bijzonder. We begonnen bij dat koffietentje met het meest ongemakkelijke kleine tafeltje, maar het was alsnog leuk. Daarna was de arcade super gezellig en afsluiten met een fijn gesprek in het park maakte het helemaal natuurlijk" 
                     },
-                    image: "",
-                    hasImage: false
+                    image: "Images/Date_1.png",
+                    hasImage: true
                 },
                 {
                     id: 2,
@@ -480,11 +480,11 @@
                     dateNl: "5 juli 2025",
                     location: { en: "Breda", nl: "Breda" },
                     description: { 
-                        en: "Exploring Breda with you just felt easy and special. Walking through stores together and trying out different fragrances was actually so fun. And sitting down at Soju Bar after all that it was the kind of moment that just made me smile.",
+                        en: "Exploring Breda with you just felt easy and special. Walking through stores together and trying out different fragrances was actually so fun. It was also the first time I gave you flowers, which made the day even more memorable. And sitting down at Soju Bar after all that, it was the kind of moment that just made me smile.",
                         nl: "Samen Breda verkennen met jou voelde gewoon relaxed en speciaal. Samen winkels inlopen en geurtjes uitproberen was stiekem echt leuk. En daarna samen zitten bij Soju Bar dat was zo'n moment waar ik alleen maar van kon glimlachen."
                     },
-                    image: "",
-                    hasImage: false
+                    image: "Images/Date_2.png",
+                    hasImage: true
                 },
                 {
                     id: 3,
@@ -496,8 +496,8 @@
                         en: "Going to Diergaarde Blijdorp with you was already such a good day and that little matcha café after made it even more fun. But asking you to be my girlfriend that evening... that made it perfect.", 
                         nl: "Samen naar Diergaarde Blijdorp gaan was al zo'n leuke dag en dat schattige matcha café daarna maakte het alleen maar beter. Maar jou die avond vragen om mijn vriendin te zijn... dat maakte alles perfect." 
                     },
-                    image: "",
-                    hasImage: false
+                    image: "Images/Date_3.png",
+                    hasImage: true
                 },
                 {
                     id: 4,
@@ -506,18 +506,18 @@
                     dateNl: "22 juli 2025",
                     location: { en: "Made", nl: "Made" },
                     description: { 
-                        en: "A perfect combination of staying active together and appreciating beautiful art. Every moment with you feels like a masterpiece.", 
-                        nl: "Een perfecte combinatie van samen actief zijn en mooie kunst waarderen. Elk moment met jou voelt als een meesterwerk." 
+                        en: "We cooked together, we drew side by side, and we explored a quiet little nature park that felt like our own world. That was the day of our first kiss gentle, warm, and unforgettable. You gave me a custom flower and the sweetest drawing, and I couldn’t stop smiling. Every part of that day felt truly special.", 
+                        nl: "We kookten samen, we tekenden zij aan zij, en we verkenden een rustig klein natuurpark dat aanvoelde als onze eigen wereld. Dat was de dag van onze eerste kus zacht, warm en onvergetelijk. Je gaf me een zelfgemaakte bloem en de liefste tekening, en ik kon niet stoppen met glimlachen. Elk moment van die dag voelde echt speciaal." 
                     },
-                    image: "",
-                    hasImage: false
+                    image: "Images/Date_4.png",
+                    hasImage: true
                 },
                 {
                     id: 5,
                     title: { en: "Coming Soon", nl: "Binnenkort" },
-                    date: "",
-                    dateNl: "",
-                    location: { en: "TBD", nl: "Nog te bepalen" },
+                    date: "July 30, 2025",
+                    dateNl: "30 juli 2025",
+                    location: { en: "Made", nl: "Made" },
                     description: { 
                         en: "Our next adventure awaits. Every day with you is a new chapter.", 
                         nl: "Ons volgende avontuur wacht. Elke dag met jou is een nieuw, hoofdstuk." 
@@ -540,6 +540,7 @@
                     hasImage: false,
                     isUpcoming: true
                 }
+
             ];
 
             let currentLanguage = localStorage.getItem('preferred-language') || 'en';
@@ -766,3 +767,4 @@ heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
     </script>
 </body>
 </html>
+
