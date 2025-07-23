@@ -155,7 +155,6 @@
             border: 2px solid rgba(255, 107, 157, 0.2);
             animation: floatGently 6s ease-in-out infinite;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
             overflow: hidden;
         }
 
@@ -326,12 +325,13 @@
             object-fit: cover;
             border-radius: 15px;
             margin-bottom: 20px;
+            cursor: default;
         }
 
         .close {
             position: absolute;
-            top: 15px;
-            right: 25px;
+            top: -15px;
+            right: 5px;
             color: #ff6b9d;
             font-size: 35px;
             font-weight: bold;
@@ -369,9 +369,11 @@
             .back-btn {
                 top: 15px;
                 left: 15px;
+                gap: 8px;
+                padding: 8px 14px;
             }
 
-            .language-btn, .back-btn {
+            .language-btn {
                 padding: 8px 14px;
                 font-size: 0.85rem;
                 min-height: 40px;
@@ -417,10 +419,11 @@
             <button class="language-btn" data-lang="nl">Nederlands</button>
         </div>
 
-<div class="heart">
-  <img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 2.3em; width: auto; vertical-align: text-bottom;">
-</div>
-
+<a href="index.html" style="text-decoration: none; display: block;">
+    <div class="heart">
+        <img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 2.3em; width: auto; vertical-align: text-bottom;">
+    </div>
+</a>
 
         <h1 id="title">Our Beautiful Dates</h1>
         <p id="subtitle" class="subtitle">Precious memories together</p>
@@ -545,7 +548,49 @@
                     image: "",
                     hasImage: false,
                     isUpcoming: true
-                }
+                },
+                {
+    id: 7,
+    title: { en: "Coming Soon", nl: "Binnenkort" },
+    date: "",
+    dateNl: "",
+    location: { en: "TBD", nl: "Nog te bepalen" },
+    description: { 
+        en: "Another beautiful memory waiting to be created. Each moment with you is a treasure.", 
+        nl: "Nog een prachtige herinnering die wacht om gemaakt te worden. Elk moment met jou is een schat." 
+    },
+    image: "",
+    hasImage: false,
+    isUpcoming: true
+},
+{
+    id: 8,
+    title: { en: "Coming Soon", nl: "Binnenkort" },
+    date: "",
+    dateNl: "",
+    location: { en: "TBD", nl: "Nog te bepalen" },
+    description: { 
+        en: "The journey continues. Every day brings new possibilities for us.", 
+        nl: "De reis gaat verder. Elke dag brengt nieuwe mogelijkheden voor ons." 
+    },
+    image: "",
+    hasImage: false,
+    isUpcoming: true
+},
+{
+    id: 9,
+    title: { en: "Coming Soon", nl: "Binnenkort" },
+    date: "",
+    dateNl: "",
+    location: { en: "TBD", nl: "Nog te bepalen" },
+    description: { 
+        en: "Future adventures await us. The story of us keeps getting better.", 
+        nl: "Toekomstige avonturen wachten op ons. Ons verhaal wordt steeds mooier." 
+    },
+    image: "",
+    hasImage: false,
+    isUpcoming: true
+}
 
             ];
 
