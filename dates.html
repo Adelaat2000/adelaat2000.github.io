@@ -302,6 +302,9 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            cursor: default;
         }
 
         .modal-content {
@@ -317,6 +320,7 @@
             box-shadow: 0 25px 50px rgba(255, 105, 180, 0.4);
             backdrop-filter: blur(20px);
             border: 2px solid rgba(255, 107, 157, 0.2);
+            box-sizing: border-box;
         }
 
         .modal-image {
@@ -337,6 +341,7 @@
             font-weight: bold;
             cursor: pointer;
             transition: color 0.3s ease;
+            z-index: 101;
         }
 
         .close:hover {
@@ -379,77 +384,115 @@
                 min-height: 40px;
             }
 
+            .modal {
+                padding: 10px;
+                box-sizing: border-box;
+            }
+            
             .modal-content {
-                margin: 10% auto;
+                margin: 2% auto;
                 padding: 20px;
-                width: 95%;
+                width: calc(100% - 20px);
+                max-width: calc(100vw - 20px);
+                max-height: 90vh;
+                border-radius: 20px;
+                box-sizing: border-box;
+            }
+            
+            .modal-image {
+                max-height: 250px;
+                margin-bottom: 15px;
+                border-radius: 12px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            .close {
+                top: 10px;
+                right: 15px;
+                font-size: 30px;
             }
         }
 
-@media (max-width: 768px) {
-    .modal {
-        padding: 10px;
-    }
-    
-    .modal-content {
-        margin: 2% auto;
-        padding: 20px;
-        width: 95%;
-        max-height: 90vh;
-        border-radius: 20px;
-    }
-    
-    .modal-image {
-        max-height: 250px;
-        margin-bottom: 15px;
-        border-radius: 12px;
-    }
-    
-    .close {
-        top: 10px;
-        right: 15px;
-        font-size: 30px;
-    }
-}
+        @media (max-width: 480px) {
+            .modal {
+                padding: 5px;
+                box-sizing: border-box;
+            }
+            
+            .modal-content {
+                margin: 1% auto;
+                padding: 15px;
+                width: calc(100% - 10px);
+                max-width: calc(100vw - 10px);
+                max-height: 95vh;
+                border-radius: 15px;
+                box-sizing: border-box;
+                overflow-x: hidden;
+                word-wrap: break-word;
+            }
+            
+            .modal-image {
+                max-height: 200px;
+                margin-bottom: 12px;
+                border-radius: 10px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            .close {
+                top: 8px;
+                right: 12px;
+                font-size: 28px;
+            }
+            
+            .date-title {
+                font-size: 1.1rem !important;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+            
+            .date-info {
+                font-size: 0.9rem !important;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+            
+            .date-description {
+                font-size: 0.85rem !important;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                line-height: 1.4;
+            }
+        }
 
-@media (max-width: 480px) {
-    .modal {
-        padding: 5px;
-    }
-    
-    .modal-content {
-        margin: 1% auto;
-        padding: 15px;
-        width: 98%;
-        max-height: 95vh;
-        border-radius: 15px;
-    }
-    
-    .modal-image {
-        max-height: 200px;
-        margin-bottom: 12px;
-        border-radius: 10px;
-    }
-    
-    .close {
-        top: 8px;
-        right: 12px;
-        font-size: 28px;
-    }
-    
-    .date-title {
-        font-size: 1.1rem !important;
-    }
-    
-    .date-info {
-        font-size: 0.9rem !important;
-    }
-    
-    .date-description {
-        font-size: 0.85rem !important;
-    }
-}
-
+        /* Extra small screens */
+        @media (max-width: 360px) {
+            .modal {
+                padding: 2px;
+            }
+            
+            .modal-content {
+                margin: 0.5% auto;
+                padding: 12px;
+                width: calc(100% - 4px);
+                max-width: calc(100vw - 4px);
+                max-height: 97vh;
+                border-radius: 12px;
+            }
+            
+            .close {
+                top: 5px;
+                right: 8px;
+                font-size: 26px;
+            }
+            
+            .modal-image {
+                max-height: 180px;
+                margin-bottom: 10px;
+                border-radius: 8px;
+            }
+        }
 
         @media (hover: hover) and (pointer: fine) {
             .language-btn:hover, .back-btn:hover {
@@ -549,7 +592,7 @@
                     location: { en: "Breda", nl: "Breda" },
                     description: { 
                         en: "Exploring Breda with you just felt easy and special. Walking through stores together and trying out different fragrances was actually so fun. It was also the first time I gave you flowers, which made the day even more memorable. And sitting down at Soju Bar after all that, it was the kind of moment that just made me smile.",
-                        nl: "Samen Breda verkennen met jou voelde gewoon relaxed en speciaal. Samen winkels inlopen en geurtjes uitproberen was stiekem echt leuk. En daarna samen zitten bij Soju Bar dat was zo'n moment waar ik alleen maar van kon glimlachen."
+                        nl: "Breda met jou verkennen voelde gewoon makkelijk en speciaal. Samen door winkeltjes lopen en verschillende geuren uitproberen was echt zo leuk. Het was ook de eerste keer dat ik je bloemen gaf, wat de dag nog gedenkwaardiger maakte. En toen we daarna neerzaten bij Soju Bar, was dat zo'n moment waar ik alleen maar van kon glimlachen."
                     },
                     image: "Images/Date_2.png",
                     hasImage: true
