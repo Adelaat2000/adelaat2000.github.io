@@ -12,10 +12,12 @@
             background-size: 400% 400%;
             animation: gradientShift 8s ease infinite;
             color: #333;
+            overflow-x: hidden;
             -webkit-text-size-adjust: 100%;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
-            min-height: 100vh; /* Changed from fixed positioning */
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
         }
 
         @media (hover: hover) and (pointer: fine) {
@@ -31,14 +33,15 @@
         }
 
         #main-content {
-            position: relative; /* Changed from fixed */
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
             padding: 55px 20px 20px 20px;
-            min-height: 100vh; /* Ensure full height */
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
             background-size: 400% 400%;
             animation: gradientShift 8s ease infinite;
@@ -54,7 +57,7 @@
         }
 
         .language-selector {
-            position: fixed; /* Keep fixed for consistent positioning */
+            position: absolute;
             top: 20px;
             right: 20px;
             display: flex;
@@ -72,6 +75,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
+            backdrop-filter: blur(10px);
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
             min-height: 44px;
@@ -85,6 +89,27 @@
             background: #ff6b9d;
             color: white;
             box-shadow: 0 4px 12px rgba(255, 107, 157, 0.4);
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #ff6b9d;
+            color: #ff6b9d;
+            padding: 10px 18px;
+            font-size: 0.9rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 15;
         }
 
         #envelope-container {
@@ -289,12 +314,15 @@
         .sparkle:nth-child(2) { top: 30%; right: 15%; animation-delay: 0.5s; }
         .sparkle:nth-child(3) { bottom: 25%; left: 20%; animation-delay: 1s; }
         .sparkle:nth-child(4) { bottom: 35%; right: 10%; animation-delay: 1.5s; }
+        .sparkle:nth-child(5) { top: 50%; left: 5%; animation-delay: 2s; }
+        .sparkle:nth-child(6) { top: 60%; right: 5%; animation-delay: 2.5s; }
 
         .heart {
             font-size: clamp(2.5rem, 10vw, 3.5rem);
             animation: heartBeat 1.2s infinite;
             z-index: 10;
             filter: drop-shadow(0 4px 8px rgba(255, 105, 180, 0.4));
+            margin-bottom: 1rem;
         }
 
         @keyframes heartBeat {
@@ -325,7 +353,7 @@
         }
 
         .buttons {
-            margin: 2rem 0 4rem 0; /* Added bottom margin for mobile scrolling */
+            margin: 2rem 0 4rem 0;
             z-index: 10;
             display: flex;
             gap: 20px;
@@ -406,27 +434,6 @@
             filter: drop-shadow(0 2px 4px rgba(255, 107, 157, 0.3));
             animation-fill-mode: forwards;
             will-change: transform;
-        }
-
-        .back-btn {
-            position: fixed; /* Keep fixed for consistent positioning */
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid #ff6b9d;
-            color: #ff6b9d;
-            padding: 10px 18px;
-            font-size: 0.9rem;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 15;
         }
 
         @keyframes floatUp {
@@ -533,7 +540,7 @@
             }
 
             #main-content {
-                padding: 90px 15px 30px 15px; /* Added more bottom padding */
+                padding: 90px 15px 30px 15px;
             }
 
             .language-selector {
@@ -557,7 +564,7 @@
             .buttons {
                 flex-direction: column;
                 gap: 15px;
-                margin: 2.5rem 0 6rem 0; /* Increased bottom margin for mobile */
+                margin: 2.5rem 0 6rem 0;
             }
 
             button {
@@ -582,12 +589,12 @@
             }
 
             #main-content {
-                padding: 100px 15px 40px 15px; /* Even more bottom padding for small screens */
+                padding: 100px 15px 40px 15px;
             }
 
             .buttons {
                 gap: 12px;
-                margin: 2rem 0 8rem 0; /* Extra space at bottom */
+                margin: 2rem 0 8rem 0;
             }
 
             button {
@@ -635,6 +642,13 @@
     </style>
 </head>
 <body>
+    <div class="sparkle"><img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle"><img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle"><img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+    <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
+
     <div id="envelope-container" aria-label="Click to open the envelope">
         <div class="instruction">Click to open <img src="Images/sparkles_3d.png" alt="Sparkle" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
         <div class="envelope-wrapper">
@@ -659,18 +673,11 @@
         </div>
     </div>
 
-    <!-- Language selector on envelope screen -->
-    <div class="language-selector">
-        <button class="language-btn active" data-lang="en">English</button>
-        <button class="language-btn" data-lang="nl">Nederlands</button>
-    </div>
-
     <div id="main-content">
         <a href="index.html" class="back-btn">
             ← <span id="back-text">Back</span>
         </a>
         
-        <!-- Language selector on main content screen -->
         <div class="language-selector">
             <button class="language-btn active" data-lang="en">English</button>
             <button class="language-btn" data-lang="nl">Nederlands</button>
@@ -702,212 +709,221 @@
     </div>
 
     <script>
-        // Language translations
-        const translations = {
-            en: {
-                greeting: 'Hey Amélie <img src="Images/dizzy_3d.png" alt="Dizzy" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
-                mainText: "From the first time we talked to all the little moments in between,<br />all the moments we've shared so far have been something special.<br /><br />Every date, every laugh, every chat, every little look they've all made me feel lucky.<br /><br />So I have just one question for you...",
-                question: 'Will you be my girlfriend? <img src="Images/red_heart_3d.png" alt="Red Heart" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
-                yesBtn1: 'Yes <img src="Images/smiling_face_3d.png" alt="Smiling Face" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
-                yesBtn2: 'Also yes <img src="Images/grinning_face_with_smiling_eyes_3d.png" alt="Grinning Face" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
-                thankYouTitle: 'YAY! <img src="Images/smiling_face_with_heart-eyes_3d.png" alt="Smiling Face" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
-                thankYouText: "Can't wait for what's next with you, Amélie.<br>Thank you for making me the happiest guy.",
-                closeThankYou: "Close",
-                instruction: "Click to open ✨",
-                back: "Back"
-            },
-    nl: {
-        greeting: 'Hey Amélie <img src="Images/dizzy_3d.png" alt="Dizzy" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
-        mainText: "Vanaf het allereerste moment dat we begonnen te praten tot aan al die kleine momentjes tussendoor<br />zijn al de momenten die we tot nu toe gedeeld hebben echt speciaal geweest.<br /><br />Elke date, elke lach, elk gesprek, elke blik... stuk voor stuk hebben ze me gelukkig gemaakt.<br /><br />Dus ik heb eigenlijk maar één vraag voor je...",
-        question: 'Wil je mijn vriendin worden? <img src="Images/red_heart_3d.png" alt="Red Heart" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
-        yesBtn1: 'Ja <img src="Images/smiling_face_3d.png" alt="Smiling Face" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
-        yesBtn2: 'Ook ja <img src="Images/grinning_face_with_smiling_eyes_3d.png" alt="Grinning Face" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
-        thankYouTitle: 'JOEPIE! <img src="Images/smiling_face_with_heart-eyes_3d.png" alt="Smiling Face" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
-        thankYouText: "Kan niet wachten op wat er hierna komt met jou, Amélie.<br>Bedankt dat je me de gelukkigste man maakt.",
-        closeThankYou: "Sluiten",
-        instruction: "Klik om te openen ✨",
-        back: "Terug"
-    }
-};
+        document.addEventListener('DOMContentLoaded', () => {
+            // Language translations
+            const translations = {
+                en: {
+                    greeting: 'Hey Amélie <img src="Images/dizzy_3d.png" alt="Dizzy" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
+                    mainText: "From the first time we talked to all the little moments in between,<br />all the moments we've shared so far have been something special.<br /><br />Every date, every laugh, every chat, every little look they've all made me feel lucky.<br /><br />So I have just one question for you...",
+                    question: 'Will you be my girlfriend? <img src="Images/red_heart_3d.png" alt="Red Heart" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
+                    yesBtn1: 'Yes <img src="Images/smiling_face_3d.png" alt="Smiling Face" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
+                    yesBtn2: 'Also yes <img src="Images/grinning_face_with_smiling_eyes_3d.png" alt="Grinning Face" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
+                    thankYouTitle: 'YAY! <img src="Images/smiling_face_with_heart-eyes_3d.png" alt="Smiling Face" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
+                    thankYouText: "Can't wait for what's next with you, Amélie.<br>Thank you for making me the happiest guy.",
+                    closeThankYou: "Close",
+                    instruction: "Click to open <img src=\"Images/sparkles_3d.png\" alt=\"Sparkle\" style=\"height: 1.3em; width: auto; vertical-align: text-bottom;\">",
+                    back: "Back"
+                },
+                nl: {
+                    greeting: 'Hey Amélie <img src="Images/dizzy_3d.png" alt="Dizzy" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
+                    mainText: "Vanaf het allereerste moment dat we begonnen te praten tot aan al die kleine momentjes tussendoor<br />zijn al de momenten die we tot nu toe gedeeld hebben echt speciaal geweest.<br /><br />Elke date, elke lach, elk gesprek, elke blik... stuk voor stuk hebben ze me gelukkig gemaakt.<br /><br />Dus ik heb eigenlijk maar één vraag voor je...",
+                    question: 'Wil je mijn vriendin worden? <img src="Images/red_heart_3d.png" alt="Red Heart" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
+                    yesBtn1: 'Ja <img src="Images/smiling_face_3d.png" alt="Smiling Face" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
+                    yesBtn2: 'Ook ja <img src="Images/grinning_face_with_smiling_eyes_3d.png" alt="Grinning Face" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
+                    thankYouTitle: 'JOEPIE! <img src="Images/smiling_face_with_heart-eyes_3d.png" alt="Smiling Face" style="height: 1.5em; width: auto; vertical-align: text-bottom;">',
+                    thankYouText: "Kan niet wachten op wat er hierna komt met jou, Amélie.<br>Bedankt dat je me de gelukkigste man maakt.",
+                    closeThankYou: "Sluiten",
+                    instruction: "Klik om te openen <img src=\"Images/sparkles_3d.png\" alt=\"Sparkle\" style=\"height: 1.3em; width: auto; vertical-align: text-bottom;\">",
+                    back: "Terug"
+                }
+            };
 
-        let currentLanguage = localStorage.getItem('preferred-language') || 'en';
+            let currentLanguage = localStorage.getItem('preferred-language') || 'en';
+            const heartCursor = document.getElementById('heart-cursor');
+            const floatingHeartsContainer = document.querySelector('.floating-hearts');
+            let heartsInterval;
 
-        function updateLanguage(lang) {
-            if (!translations[lang]) return;
-            
-            currentLanguage = lang;
-            localStorage.setItem('preferred-language', lang);
-            const t = translations[lang];
-            
-            // Batch DOM updates
-            requestAnimationFrame(() => {
-                document.getElementById('greeting').innerHTML = t.greeting;
-                document.getElementById('main-text').innerHTML = t.mainText;
-                document.getElementById('question').innerHTML = t.question;
-                document.getElementById('yesBtn1').innerHTML = t.yesBtn1;
-                document.getElementById('yesBtn2').innerHTML = t.yesBtn2;
-                document.getElementById('thankYouTitle').innerHTML = t.thankYouTitle;
-                document.getElementById('thankYouText').innerHTML = t.thankYouText;
-                document.getElementById('closeThankYou').innerHTML = t.closeThankYou;
-                document.querySelector('.instruction').innerHTML = t.instruction;
-                document.getElementById('back-text').innerHTML = t.back;
+            // Debounced heart creation for performance
+            let heartCreationTimeout;
+            function createHeart() {
+                if (heartCreationTimeout) return;
                 
-                // Update all language buttons
-                document.querySelectorAll('.language-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+                heartCreationTimeout = setTimeout(() => {
+                    const hearts = [
+                        '<img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">', // 💖
+                        '<img src="Images/two_hearts_3d.png" alt="Two Hearts" style="height: 1em; width: auto; vertical-align: text-bottom;">',         // 💕
+                        '<img src="Images/growing_heart_3d.png" alt="Growing Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">',   // 💗
+                        '<img src="Images/beating_heart_3d.png" alt="Beating Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">',   // 💓
+                        '<img src="Images/heart_with_ribbon_3d.png" alt="Heart Ribbon" style="height: 1em; width: auto; vertical-align: text-bottom;">', //💝
+                        '<img src="Images/heart_with_arrow_3d.png" alt="Heart Arrow" style="height: 1em; width: auto; vertical-align: text-bottom;">', //💘
+                        '<img src="Images/love_letter_3d.png" alt="Love Letter" style="height: 1em; width: auto; vertical-align: text-bottom;">', // 💌
+                        '<img src="Images/heart_decoration_3d.png" alt="Heart Decoration" style="height: 1em; width: auto; vertical-align: text-bottom;">' // 💟
+                    ];
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (5 + Math.random() * 3) + 's';
+                    heart.style.fontSize = (12 + Math.random() * 20) + 'px';
+                    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+
+                    floatingHeartsContainer.appendChild(heart);
+                    setTimeout(() => {
+                        if (heart && heart.parentNode) {
+                            heart.remove();
+                        }
+                    }, 8000);
+                    
+                    heartCreationTimeout = null;
+                }, 100);
+            }
+
+            function updateLanguage(lang) {
+                if (!translations[lang]) return;
+                
+                currentLanguage = lang;
+                localStorage.setItem('preferred-language', lang);
+                const t = translations[lang];
+
+                // Batch DOM updates
+                requestAnimationFrame(() => {
+                    document.getElementById('greeting').innerHTML = t.greeting;
+                    document.getElementById('main-text').innerHTML = t.mainText;
+                    document.getElementById('question').innerHTML = t.question;
+                    document.getElementById('yesBtn1').innerHTML = t.yesBtn1;
+                    document.getElementById('yesBtn2').innerHTML = t.yesBtn2;
+                    document.getElementById('thankYouTitle').innerHTML = t.thankYouTitle;
+                    document.getElementById('thankYouText').innerHTML = t.thankYouText;
+                    document.getElementById('closeThankYou').innerHTML = t.closeThankYou;
+                    document.querySelector('.instruction').innerHTML = t.instruction;
+                    document.getElementById('back-text').innerHTML = t.back;
+                    
+                    // Update all language buttons
+                    document.querySelectorAll('.language-btn').forEach(btn => {
+                        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+                    });
+                });
+            }
+
+            // Add event listeners to all language buttons
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const lang = btn.getAttribute('data-lang');
+                    if (lang && translations[lang]) {
+                        updateLanguage(lang);
+                    }
                 });
             });
-        }
 
-        // Add event listeners to all language buttons
-        document.querySelectorAll('.language-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            const envelopeContainer = document.getElementById('envelope-container');
+            const frontFlap = document.getElementById('frontFlap');
+            const letter = document.getElementById('letter');
+            const mainContent = document.getElementById('main-content');
+
+            envelopeContainer.addEventListener('click', (e) => {
                 e.preventDefault();
-                const lang = btn.getAttribute('data-lang');
-                if (lang && translations[lang]) {
-                    updateLanguage(lang);
-                }
-            });
-        });
-
-        const envelopeContainer = document.getElementById('envelope-container');
-        const frontFlap = document.getElementById('frontFlap');
-        const letter = document.getElementById('letter');
-        const mainContent = document.getElementById('main-content');
-
-        envelopeContainer.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            // Remove the scale animation that might cause white flashes
-            frontFlap.classList.add('open');
-
-            setTimeout(() => {
-                letter.classList.add('show');
-            }, 500);
-
-            setTimeout(() => {
-                // Start main content fade-in BEFORE envelope fade-out begins
-                mainContent.classList.add('show');
                 
-                // Slight delay before starting envelope fade-out for overlap
+                frontFlap.classList.add('open');
+
                 setTimeout(() => {
-                    envelopeContainer.classList.add('hidden');
-                }, 200);
-                
-                startHearts();
-            }, 1200); // Start transition earlier
-        });
+                    letter.classList.add('show');
+                }, 500);
 
-        // FLOATING HEARTS IMPLEMENTATION
-        const floatingHeartsContainer = document.querySelector('.floating-hearts');
-        const heartCursor = document.getElementById('heart-cursor');
-        let heartsInterval;
-
-        function createHeart() {
-            const hearts = [
-                '<img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">', // 💖
-                '<img src="Images/two_hearts_3d.png" alt="Two Hearts" style="height: 1em; width: auto; vertical-align: text-bottom;">',         // 💕
-                '<img src="Images/growing_heart_3d.png" alt="Growing Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">',   // 💗
-                '<img src="Images/beating_heart_3d.png" alt="Beating Heart" style="height: 1em; width: auto; vertical-align: text-bottom;">',   // 💓
-                '<img src="Images/heart_with_ribbon_3d.png" alt="Heart Ribbon" style="height: 1em; width: auto; vertical-align: text-bottom;">', //💝
-        ];
-            const heart = document.createElement('div');
-            heart.classList.add('floating-heart');
-            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (16 + Math.random() * 12) + 'px';
-            heart.style.animationDuration = (5 + Math.random() * 3) + 's';
-            heart.style.animationDelay = Math.random() * 0.5 + 's';
-            
-            heart.addEventListener('animationend', function() {
-                heart.remove();
+                setTimeout(() => {
+                    mainContent.classList.add('show');
+                    
+                    setTimeout(() => {
+                        envelopeContainer.classList.add('hidden');
+                    }, 200);
+                    
+                    startHearts();
+                }, 1200);
             });
-            
-            floatingHeartsContainer.appendChild(heart);
-        }
 
-        function startHearts() {
-            if (heartsInterval) clearInterval(heartsInterval);
-            heartsInterval = setInterval(createHeart, 400);
-            
-            // Initial burst
-            for (let i = 0; i < 10; i++) {
-                setTimeout(createHeart, i * 150);
-            }
-        }
-
-        const thankYouScreen = document.getElementById('thankYouScreen');
-        const yesButtons = [document.getElementById('yesBtn1'), document.getElementById('yesBtn2')];
-        const closeThankYouBtn = document.getElementById('closeThankYou');
-
-        yesButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                for (let i = 0; i < 20; i++) {
-                    setTimeout(createHeart, i * 100);
-                }
-                thankYouScreen.classList.add('show');
-            });
-        });
-
-        closeThankYouBtn.addEventListener('click', () => {
-            thankYouScreen.classList.remove('show');
-        });
-
-        // Optimized mouse cursor handling
-        if (!('ontouchstart' in window) && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-            let mouseX = 0, mouseY = 0;
-            let animationFrame;
-
-            function updateCursor() {
-                if (heartCursor) {
-                    heartCursor.style.left = mouseX + 'px';
-                    heartCursor.style.top = mouseY + 'px';
-                }
-                animationFrame = null;
+            function startHearts() {
+                if (heartsInterval) clearInterval(heartsInterval);
+                heartsInterval = setInterval(createHeart, 800);
             }
 
-            window.addEventListener('mousemove', e => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                
-                if (!animationFrame) {
-                    animationFrame = requestAnimationFrame(updateCursor);
-                }
-            });
-
-            const scaleUp = () => heartCursor?.style.setProperty('transform', 'translate(-50%, -50%) scale(1.5) rotate(15deg)');
-            const scaleDown = () => heartCursor?.style.setProperty('transform', 'translate(-50%, -50%) scale(1) rotate(0deg)');
-
-            window.addEventListener('mousedown', scaleUp);
-            window.addEventListener('mouseup', scaleDown);
-
-            // Handle cursor for interactive elements
-            document.querySelectorAll('button, a').forEach(element => {
-                element.addEventListener('mouseenter', () => {
-                    if (heartCursor) heartCursor.style.display = 'none';
-                    element.style.cursor = 'pointer';
-                });
-                element.addEventListener('mouseleave', () => {
-                    if (heartCursor) heartCursor.style.display = 'block';
-                });
-            });
-        } else {
-            if (heartCursor) heartCursor.style.display = 'none';
-            document.body.style.cursor = 'default';
-        }
-
-        // Performance: Pause hearts when page is hidden
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
+            function stopHearts() {
                 if (heartsInterval) {
                     clearInterval(heartsInterval);
                     heartsInterval = null;
                 }
             }
-        });
 
-        // Initialize with saved language preference
-        updateLanguage(currentLanguage);
+            const thankYouScreen = document.getElementById('thankYouScreen');
+            const yesButtons = [document.getElementById('yesBtn1'), document.getElementById('yesBtn2')];
+            const closeThankYouBtn = document.getElementById('closeThankYou');
+
+            yesButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    for (let i = 0; i < 20; i++) {
+                        setTimeout(createHeart, i * 100);
+                    }
+                    thankYouScreen.classList.add('show');
+                });
+            });
+
+            closeThankYouBtn.addEventListener('click', () => {
+                thankYouScreen.classList.remove('show');
+            });
+
+            // Optimized mouse cursor handling
+            if (!('ontouchstart' in window) && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                let mouseX = 0, mouseY = 0;
+                let animationFrame;
+
+                function updateCursor() {
+                    if (heartCursor) {
+                        heartCursor.style.left = mouseX + 'px';
+                        heartCursor.style.top = mouseY + 'px';
+                    }
+                    animationFrame = null;
+                }
+
+                window.addEventListener('mousemove', e => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    
+                    if (!animationFrame) {
+                        animationFrame = requestAnimationFrame(updateCursor);
+                    }
+                });
+
+                const scaleUp = () => heartCursor?.style.setProperty('transform', 'translate(-50%, -50%) scale(1.5) rotate(15deg)');
+                const scaleDown = () => heartCursor?.style.setProperty('transform', 'translate(-50%, -50%) scale(1) rotate(0deg)');
+
+                window.addEventListener('mousedown', scaleUp);
+                window.addEventListener('mouseup', scaleDown);
+
+                // Handle cursor for interactive elements
+                document.querySelectorAll('button, a').forEach(element => {
+                    element.addEventListener('mouseenter', () => {
+                        if (heartCursor) heartCursor.style.display = 'none';
+                        element.style.cursor = 'pointer';
+                    });
+                    element.addEventListener('mouseleave', () => {
+                        if (heartCursor) heartCursor.style.display = 'block';
+                    });
+                });
+            } else {
+                if (heartCursor) heartCursor.style.display = 'none';
+                document.body.style.cursor = 'default';
+            }
+
+            // Performance: Pause hearts when page is hidden
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    stopHearts();
+                } else if (mainContent.classList.contains('show')) {
+                    startHearts();
+                }
+            });
+
+            // Initialize with saved language preference
+            updateLanguage(currentLanguage);
+        });
     </script>
 </body>
 </html>
