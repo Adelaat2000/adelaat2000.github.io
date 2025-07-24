@@ -53,7 +53,8 @@
             z-index: 15;
         }
 
-        .language-btn {
+        /* UNIFIED BUTTON STYLING - Works for both <a> and <button> elements */
+        .btn-unified {
             background: rgba(255, 255, 255, 0.9);
             border: 2px solid #ff6b9d;
             color: #ff6b9d;
@@ -64,40 +65,46 @@
             transition: all 0.3s ease;
             font-weight: 600;
             backdrop-filter: blur(10px);
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            min-height: 44px;
-            min-width: 44px;
-            display: flex;
+            
+            /* Universal resets for consistent rendering */
+            text-decoration: none;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
+            min-height: 44px;
+            box-sizing: border-box;
+            font-family: inherit;
+            line-height: 1;
+            text-align: center;
+            vertical-align: baseline;
+            margin: 0;
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            z-index: 15;
         }
 
-        .language-btn.active {
+        .btn-unified.active {
             background: #ff6b9d;
             color: white;
             box-shadow: 0 4px 12px rgba(255, 107, 157, 0.4);
         }
 
-        .back-btn {
+        .btn-unified:hover {
+            background: #ff6b9d;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Position-specific styles */
+        .btn-back {
             position: absolute;
             top: 20px;
             left: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid #ff6b9d;
-            color: #ff6b9d;
-            padding: 10px 18px;
-            font-size: 0.9rem;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 15;
         }
 
         .heart {
@@ -371,21 +378,16 @@
                 gap: 8px;
             }
 
-            .back-btn {
+            .btn-back {
                 top: 15px;
                 left: 15px;
-                gap: 8px;
-                font-size: 0.85rem;
-                padding: 8px 14px;
-                font-weight: 600;  /* Lighter than 600 */
-                color: rgba(255, 107, 157, 0.9);  /* Slightly more transparent */
-                text-rendering: optimizeLegibility;  /* Better text rendering */
             }
 
-            .language-btn {
+            .btn-unified {
                 padding: 8px 14px;
                 font-size: 0.85rem;
                 min-height: 40px;
+                font-weight: 550;
             }
 
             .modal {
@@ -497,14 +499,6 @@
                 border-radius: 8px;
             }
         }
-
-        @media (hover: hover) and (pointer: fine) {
-            .language-btn:hover, .back-btn:hover {
-                background: #ff6b9d;
-                color: white;
-                transform: scale(1.05);
-            }
-        }
     </style>
 </head>
 <body>
@@ -516,13 +510,13 @@
     <div class="sparkle"><img src="Images/star_3d.png" alt="Star" style="height: 1.3em; width: auto; vertical-align: text-bottom;"></div>
 
     <div class="container">
-        <a href="index.html" class="back-btn">
+        <a href="index.html" class="btn-unified btn-back">
             ← <span id="back-text">Back</span>
         </a>
         
         <div class="language-selector">
-            <button class="language-btn active" data-lang="en">English</button>
-            <button class="language-btn" data-lang="nl">Nederlands</button>
+            <button class="btn-unified active" data-lang="en">English</button>
+            <button class="btn-unified" data-lang="nl">Nederlands</button>
         </div>
 
 <a href="index.html" style="text-decoration: none; display: block;">
@@ -759,7 +753,7 @@ heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
                     document.getElementById('subtitle').textContent = t.subtitle;
                     document.getElementById('back-text').textContent = t.back;
 
-                    document.querySelectorAll('.language-btn').forEach(btn => {
+                    document.querySelectorAll('.btn-unified').forEach(btn => {
                         btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
                     });
 
@@ -826,13 +820,15 @@ heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
             }
 
             // Event listeners with proper error handling
-            document.querySelectorAll('.language-btn').forEach(btn => {
+            document.querySelectorAll('.btn-unified').forEach(btn => {
                 btn.addEventListener('click', e => {
-                    e.preventDefault();
+                    // Only prevent default for language buttons, not the back button
                     const lang = btn.getAttribute('data-lang');
                     if (lang && translations[lang]) {
+                        e.preventDefault();
                         updateLanguage(lang);
                     }
+                    // Let the back button (link) navigate normally without preventDefault
                 });
             });
 
