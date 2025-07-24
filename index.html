@@ -53,7 +53,8 @@
             z-index: 15;
         }
 
-        .language-btn {
+        /* UNIFIED BUTTON STYLING - Based on original language button design */
+        .btn-unified {
             background: rgba(255, 255, 255, 0.9);
             border: 2px solid #ff6b9d;
             color: #ff6b9d;
@@ -63,18 +64,43 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
+            backdrop-filter: blur(10px);
             min-height: 44px;
             min-width: 44px;
+            
+            /* Universal resets for consistent rendering */
+            text-decoration: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            transform: none;
-            filter: none;
-            backdrop-filter: none;
-            box-shadow: none;
-            text-shadow: none;
+            gap: 8px;
+            box-sizing: border-box;
+            font-family: inherit;
+            line-height: 1;
+            text-align: center;
+            vertical-align: baseline;
+            margin: 0;
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            z-index: 15;
+        }
+
+        .btn-unified.active {
+            background: #ff6b9d;
+            color: white;
+            box-shadow: 0 4px 12px rgba(255, 107, 157, 0.4);
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .btn-unified:hover {
+                background: #ff6b9d;
+                color: white;
+                transform: scale(1.05);
+            }
         }
 
         .envelope-btn, .dates-btn {
@@ -141,12 +167,6 @@
 
         .envelope-btn:active::before, .dates-btn:active::before {
             opacity: 1;
-        }
-
-        .language-btn.active {
-            background: #ff6b9d;
-            color: white;
-            box-shadow: 0 4px 12px rgba(255, 107, 157, 0.4);
         }
 
         .heart {
@@ -234,13 +254,9 @@
             border-radius: 30px;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 
-                0 8px 25px rgba(255, 105, 180, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
             min-width: 160px;
             min-height: 56px;
             font-weight: 600;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
             flex: 1 1 auto;
             max-width: 200px;
             -webkit-tap-highlight-color: transparent;
@@ -391,13 +407,7 @@
                 gap: 8px;
             }
 
-            .back-btn {
-                padding: 8px 14px;
-                font-size: 0.85rem;
-                min-height: 40px; 
-            }
-
-            .language-btn {
+            .btn-unified {
                 padding: 8px 14px;
                 font-size: 0.85rem;
                 min-height: 40px;
@@ -440,12 +450,6 @@
             .container {
                 padding: 55px 20px 20px 20px;
             }
-            
-            .language-btn:hover {
-                background: #ff6b9d;
-                color: white;
-                transform: scale(1.05);
-            }
 
             .envelope-btn:hover, .dates-btn:hover {
                 background: linear-gradient(135deg, #ff8fa3 0%, #ffb3ba 100%);
@@ -470,8 +474,8 @@
     <div class="container">
         <!-- Language selector moved INSIDE container to match dates page -->
         <div class="language-selector">
-            <button class="language-btn active" data-lang="en">English</button>
-            <button class="language-btn" data-lang="nl">Nederlands</button>
+            <button class="btn-unified active" data-lang="en">English</button>
+            <button class="btn-unified" data-lang="nl">Nederlands</button>
         </div>
         <div class="heart">
              <img src="Images/sparkling_heart_3d.png" alt="Sparkling Heart" style="height: 2.3em; width: auto; vertical-align: text-bottom;">
@@ -539,15 +543,12 @@
             document.getElementById('title').textContent = t.title;
             updateCounter();
 
-            document.querySelectorAll('.language-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('data-lang') === lang) {
-                    btn.classList.add('active');
-                }
+            document.querySelectorAll('.btn-unified').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
             });
         }
 
-        document.querySelectorAll('.language-btn').forEach(btn => {
+        document.querySelectorAll('.btn-unified').forEach(btn => {
             btn.addEventListener('click', e => {
                 e.preventDefault();
                 const lang = btn.getAttribute('data-lang');
