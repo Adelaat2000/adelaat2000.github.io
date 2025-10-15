@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <title>Happy 3 Months, Amélie! 💖</title>
+    <style>
+        /* --- General & Background Styles --- */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            color: #333;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Aligns content from the top */
+            padding: 20px;
+            padding-top: 5vh; /* Space from the top */
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            body {
+                cursor: none;
+            }
+        }
+    
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- Cursor & Particle Styles --- */
+        .heart-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            font-size: 30px;
+            color: #d81b60;
+            z-index: 10000;
+            line-height: 1;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+            transition: transform 0.1s ease-out;
+            transform: translate(-50%, -50%);
+        }
+
+        .heart-particle {
+            position: fixed;
+            font-size: 15px;
+            color: #ff6f91;
+            pointer-events: none;
+            opacity: 0;
+            animation: fall 3s ease-in forwards;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes fall {
+            0% { transform: translate(-50%, -50%) translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        /* --- Subtitle Style --- */
+        #subtitle {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            margin-bottom: 1rem;
+            color: #d81b60;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* --- Countdown Clock Style (The core piece) --- */
+        #countdown {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: clamp(1.5rem, 6vw, 3rem);
+            color: #4a148c;
+            padding: 15px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: inline-block;
+            z-index: 10;
+        }
+        
+        /* --- Anniversary Surprise Card Styles --- */
+        .surprise-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 90%;
+            margin-bottom: 20px;
+            text-align: center;
+            
+            /* Animation applied on load */
+            transform: scale(0.8);
+            opacity: 0;
+            animation: fadeInScale 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+        }
+
+        @keyframes fadeInScale {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .main-message {
+            font-family: 'Georgia', serif;
+            font-size: clamp(2rem, 10vw, 5rem);
+            color: #880e4f;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            text-shadow: 3px 3px 5px rgba(255, 100, 150, 0.3);
+        }
+
+        .sub-message {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            color: #d81b60;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="heart-cursor" class="heart-cursor">❤️</div>
+    
+    <p id="subtitle">Counting every moment since our first date...</p>
+    
+    <div id="countdown"></div>
+
+    <div class="surprise-card">
+        <div id="main-message" class="main-message">
+            I love you, Amélie
+        </div>
+        <div id="sub-message" class="sub-message">
+            Three months have passed so quickly, but every single day with you feels like a beautiful dream. You bring so much light and happiness into my life. Here's to countless more months of making incredible memories together! 💖
+        </div>
+    </div>
+
+
+<script>
+    // --- Configuration ---
+    // SET YOUR START DATE HERE (YYYY-MM-DD)
+    const startDate = new Date('2025-07-17T00:00:00'); 
+    const heartParticlesEnabled = true;
+    let countdownInterval = null;
+    let heartInterval = null;
+    
+    const countdownElement = document.getElementById('countdown');
+
+    // --- Countdown Logic (English only) ---
+    function updateCounter() {
+        const now = new Date();
+        const diffMs = now.getTime() - startDate.getTime();
+
+        const totalDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
+        const totalMinutes = Math.floor(diffMs / (1000 * 60));
+        const totalSeconds = Math.floor(diffMs / 1000);
+
+        const countdownText = `
+            ${totalDays.toLocaleString()} days |
+            ${totalHours.toLocaleString()} hours |
+            ${totalMinutes.toLocaleString()} minutes |
+            ${totalSeconds.toLocaleString()} seconds
+        `;
+
+        // Replace all pipe symbols with a styled one
+        countdownElement.innerHTML = countdownText.trim().replace(/\|/g, '<span style="color: #d81b60;"> | </span>');
+    }
+
+    // --- Heart Particle Effect (Falling Hearts) ---
+    function createHeartParticle() {
+        const heart = document.createElement('div');
+        heart.classList.add('heart-particle');
+        heart.innerHTML = '❤️'; 
+        
+        const size = Math.random() * 20 + 15;
+        heart.style.fontSize = `${size}px`;
+        heart.style.left = `${Math.random() * 100}vw`;
+
+        const duration = Math.random() * 3 + 2;
+        heart.style.animationDuration = `${duration}s`;
+        
+        const delay = Math.random() * 1; 
+        heart.style.animationDelay = `${delay}s`;
+
+        document.body.appendChild(heart);
+
+        heart.onanimationend = () => heart.remove();
+    }
+
+    function startHearts() {
+        if (!heartParticlesEnabled || heartInterval) return;
+        heartInterval = setInterval(createHeartParticle, 500);
+    }
+
+    function stopHearts() {
+        if (heartInterval) {
+            clearInterval(heartInterval);
+            heartInterval = null;
+        }
+    }
+
+    // --- Custom Heart Cursor Logic ---
+    function setupHeartCursor() {
+        const heartCursor = document.getElementById('heart-cursor');
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        
+        if (!isTouchDevice && heartCursor) {
+            document.addEventListener('mousemove', (e) => {
+                heartCursor.style.left = `${e.clientX}px`;
+                heartCursor.style.top = `${e.clientY}px`;
+            });
+
+            const scaleUp = () => heartCursor.style.transform = 'translate(-50%, -50%) scale(1.3) rotate(15deg)';
+            const scaleDown = () => heartCursor.style.transform = 'translate(-50%, -50%) scale(1) rotate(0deg)';
+
+            document.addEventListener('mousedown', scaleUp);
+            document.addEventListener('mouseup', scaleDown);
+
+            // Handle cursor for interactive elements
+            document.querySelectorAll('a, button').forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    if (heartCursor) heartCursor.style.display = 'none';
+                });
+                element.addEventListener('mouseleave', () => {
+                    if (heartCursor) heartCursor.style.display = 'block';
+                });
+            });
+        } else {
+            if (heartCursor) heartCursor.style.display = 'none';
+            document.body.style.cursor = 'default';
+        }
+    }
+
+    // --- Initialization ---
+    window.addEventListener('load', () => {
+        // Start the countdown timer and update immediately
+        updateCounter();
+        countdownInterval = setInterval(updateCounter, 1000);
+
+        // Set up custom cursor and heart particle effect
+        setupHeartCursor();
+        startHearts();
+        
+        // Performance: Pause hearts when page is hidden
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                stopHearts();
+            } else {
+                startHearts();
+            }
+        });
+    });
+</script>
+</body>
+</html>
